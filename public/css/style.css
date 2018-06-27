@@ -1,0 +1,291 @@
+html,
+body {
+  font-family: Open Sans, Lucida Grande, Helvetica Neue, Helvetica, Arial,
+    Sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.logo {
+  width: 104px;
+  height: 40px;
+}
+
+.navbar-brand-text {
+  color: white;
+  font-size: 10pt;
+  line-height: 1pt;
+}
+
+.navbar-brand:after {
+  color:white;
+  content:"β";
+  display: inline;
+  font-size:8pt;
+  padding:5px;
+  top: 10px;
+  right: 0;
+  left: 100px;
+  position: absolute;
+}
+
+.navbar {
+  background-color: black;
+}
+
+.fixed-top {
+  position: absolute !important;
+}
+
+.header-img {
+  min-height: 350px;
+  background-position: top;
+  background-image: url("/images/header.jpg");
+}
+
+.header-img::before {
+  position: absolute;
+  content: "";
+  background-image: url("/images/header_gradient.png");
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-position: top;
+}
+
+.center-text {
+  top: 50%;
+  position: absolute;
+}
+
+.block-bg {
+  background-color: #000;
+  color: white;
+  padding: 0.3em;
+  line-height: 1em;
+  display: table;
+  position: relative;
+}
+
+.header {
+  position: relative;
+}
+
+.alert {
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.alert-danger {
+  color: white !important;
+  background-color: #d51007 !important;
+  border-color: none !important;
+}
+
+.container-margin {
+  margin-top: 1.25rem !important;
+}
+
+.form-label {
+  font-weight: 700;
+  display: block;
+  line-height: 24px;
+}
+
+.form-group input + label {
+  margin: 0;
+  padding: 0.75rem 2rem;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  border: solid 1px #ddd;
+  background-color: #fff;
+  font-size: 1rem;
+  line-height: 140%;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  transition: border-color 0.15s ease-out, color 0.25s ease-out,
+    background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.toggle-group {
+  margin: 0 0 1.5rem;
+  box-sizing: border-box;
+  font-size: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.toggle-group input[type="radio"] {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: -9999px;
+}
+
+.toggle-group input[type="radio"] {
+  visibility: hidden;
+  box-sizing: border-box;
+  font-size: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.toggle-group input + label:first-of-type {
+  border-radius: 6px 0 0 6px;
+  border-right: none;
+}
+
+.toggle-group input + label:last-of-type {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
+}
+.toggle-group input:hover + label {
+  border-color: #9da1a5;
+}
+
+.form-group input:focus {
+  box-shadow: 0 0 10px rgba(146, 146, 146, 0.5) !important;
+  border-color: rgb(129, 128, 128) !important;
+}
+
+.toggle-group input:checked + label {
+  background-color: rgb(213, 16, 7) !important;
+  color: #fff;
+  box-shadow: 0 0 10px rgb(213, 16, 7, 0.5) !important;
+  border-color: rgb(182, 17, 8) !important;
+  z-index: 1;
+}
+
+.toggle-group input:focus + label {
+  outline: dotted 1px #ccc;
+  outline-offset: 0.45rem;
+}
+
+@media (max-width: 800px) {
+  .toggle-group input + label {
+    padding: 0.75rem 0.25rem;
+    flex: 0 0 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.btn-primary {
+  background-color: rgb(213, 16, 7) !important;
+  color: #fff;
+  box-shadow: 0 0 10px rgb(213, 16, 7, 0.5) !important;
+  border-color: rgb(182, 17, 8) !important;
+  z-index: 1;
+}
+
+.footer {
+  position: absolute;
+  font-size: 9pt;
+  color: #707070;
+  bottom: 0;
+  left: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: #000;
+}
+
+.footer a {
+  color: darkred;
+}
+
+.footer a:hover {
+  color: darkred;
+}
+
+.content {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.username a {
+  font-size: 30px;
+  color: white;
+}
+
+.username a:hover {
+  color: white;
+}
+
+.milestones-img {
+  background-size: cover !important;
+  background-position: center;
+  min-height: 250px !important;
+}
+
+.user-info {
+  display: block;
+}
+
+.additional-info {
+  font-size: 8pt;
+  color: gray;
+}
+
+.milestone-cover::after {
+  content: "";
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.milestone-info {
+  position: absolute;
+  bottom: 0;
+  color: white;
+  padding: 20px !important;
+}
+
+.milestone-info a, .user-info a, .first-scrobble a {
+  color:white;
+}
+
+.milestone-info a:hover, .user-info a:hover, .first-scrobble a:hover {
+  color: white;
+}
+
+.milestone-meta { 
+  position: absolute;
+  top:0;
+  color: white;
+  padding: 20px;
+}
+
+.milestone-name {
+  font-weight: 700;
+}
+
+.milestone-number {
+  background-color:red!important;
+}
+
+.first-scrobble {
+  position: absolute;
+  right:0;
+  padding: 20px;
+  color: white;
+  bottom:0;
+}
+
+.row {
+  margin: 0!important;
+}

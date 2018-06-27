@@ -1,0 +1,60 @@
+<%- include('header') -%>
+<body>
+    <div class="content" style="background-color:black!important">
+        <nav class="navbar navbar-expand-sm fixed-top navbar-dark d-flex justify-content-center">
+        <a class="navbar-brand text-center" href="/">
+            <img class="logo" src="/images/logo.svg">
+            <p class="navbar-brand-text">Milestones</p>
+        </a>
+            </nav>
+<header class="header">
+        <div class="header-img milestones-img">
+        <div class="container">
+                <div class="center-text" style="top:35%">
+                    <div class="row justify-content-start align-items-center">
+                        <div class="col-md-auto col-5">
+                            <img class="rounded-circle" src="<%= user.image[2]["#text"]%>" width="150px"/>
+                        </div>
+                        <div class="col-md-auto col-7 user-info">
+                            <div class="align-middle">
+                                <h4 class="block-bg username"><a href="<%=user.url%>"><%=user.name%></a></h4>
+                                <div class="user-info">
+                                <h4 class="block-bg" style="margin-bottom: 0"><a href="<%=user.url%>/library"><%=user.playcount%> scrobbles</a></h4>
+                                <p class="block-bg additional-info">since <%=moment(user.registered.unixtime * 1000).format("Do MMMM YYYY")%></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+    <div class="row no-gutters justify-content-md-center">
+    <% for (milestone of milestones) {%>
+        <div class="col-lg-3 col-sm-6 col-md-4 col-6" %>>
+        
+        <a href="<%= milestone.url %>">
+            <div class="milestone-cover">
+                    <img src="<%= milestone.image[3]["#text"] ? milestone.image[3]["#text"] : "https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb" %>" width="100%">
+            </div>
+            </a>
+        <div class="milestone-info">
+        <div class="milestone-name">
+            <a href="<%= milestone.url %>"><%= milestone.name%></a>
+        </div>
+        <div class="milestone-artist">
+            <a href="https://last.fm/artist/<%= milestone.artist["#text"] %>"><%= milestone.artist["#text"] %></a>
+        </div>
+    </div>
+    <div class="milestone-meta">
+        <div class="block-bg milestone-number">
+            #<%= milestone.milestoneNumb === 0 ? 1 : numeral(milestone.milestoneNumb).format("0,0") %>
+        </div>
+        <div class="block-bg additional-info">
+            <%= moment(milestone.date.uts * 1000).format("Do MMMM YYYY H:mm") %>
+        </div>
+    </div>
+    </div>
+    <% } %>
+    </div>
+<%- include('footer') -%>
