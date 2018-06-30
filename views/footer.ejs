@@ -1,12 +1,19 @@
 <div class="footer">
     <div class="container">
         Created in 2018. 
+        Available on <a href="https://github.com/tarasbarabash/LastFM-Milestones">Github</a>.
         Data provided by <a href="http://last.fm/">Last.fm</a>.
-        <img src="/images/footer_logo.png" class="float-right" width="37" height="20">
+        <img src="/images/footer_logo.png" class="float-right logo-bottom" width="25" height="14">
     </div>
 </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+            <script>
+                $(window).bind('beforeunload', () => {
+                    $("#static-logo").hide();
+                    $("#animated-logo").show();
+                })
+            </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </body>

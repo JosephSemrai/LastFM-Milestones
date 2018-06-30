@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Best tool for discovering last.fm milestone scrobbles!">
     <title>
-        Last.fm Milestones
+        LastMilestones: Your milestone scrobbles
     </title>
+    <link rel="alternate" hreflang="en" href="http://lastmilestones.tk">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link rel="icon" href="/images/favicon.ico">
@@ -20,5 +22,34 @@
 
         gtag('config', 'UA-121524199-1');
     </script>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
+
+<body>
+    <div class="content">
+        <nav class="navbar navbar-expand-sm fixed-top navbar-dark">
+            <div class="container">
+                    <a class="text-center" href="/">        
+                        <%- include('logo') -%>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/feedback">Send a feedback</a>
+                        </li>
+                    </ul>
+            </div>
+            </div>
+        </nav>
+        <% if (error) {%>
+        <div class="alert alert-danger">
+            Error: <%=error%>
+        </div>
+        <% } else if (success) {%>
+        <div class="alert alert-success">
+            <%=success%>
+        </div>
+        <% } %>

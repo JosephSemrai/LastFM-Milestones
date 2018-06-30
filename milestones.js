@@ -5,22 +5,9 @@ const requestPromise = require("request-promise");
 const moment = require("moment");
 const numeral = require("numeral");
 const Promise = require("bluebird");
-
-const parameters = {
-    "format": "json",
-    "api_key": process.env.API_KEY
-}
+const server = require("./index");
 
 router.get("/", (req, res) => {
-    res.render("index", {
-        "session": req.session
-    });
-    if (req.session.error) {
-        req.session.destroy();   
-    };
-});
-
-router.get("/milestones", (req, res) => {
     if (Object.keys(req.query).length == 0) {
         req.session.error = "Invalid parameters for processing!";
         res.redirect("/");
@@ -34,14 +21,14 @@ router.get("/milestones", (req, res) => {
         return;
     }    
     req.session.user = username;
-    parameters.user = username;
+    server.parameters.user = username;
     if (step < 100) {
         req.session.error = "Step cannot be less than 100!";
         res.redirect("/");
         return;
     }
     req.session.step = step;
-    request.get("http://ws.audioscrobbler.com/2.0/?method=user.getinfo" + formatParams(parameters),
+    request.get("http://ws.audioscrobbler.com/2.0/?method=user.getinfo" + server.formatParams(server.parameters),
         (error, getRequest, body) => {
             const userJson = JSON.parse(body);
             if (userJson.error) {
@@ -49,7 +36,7 @@ router.get("/milestones", (req, res) => {
                 res.redirect("/");
                 return;
             }
-            if (Math.floor(userJson.user.playcount / step) > 400) {
+            if (Math.round(userJson.user.playcount / step) > 400) {
                 req.session.error = "The result is too long to process, please increase the step!";
                 res.redirect("/");
                 return;
@@ -59,12 +46,12 @@ router.get("/milestones", (req, res) => {
                 res.redirect("/");
                 return;
             }
-            parameters.limit = 1;
+            server.parameters.limit = 1;
             let milestonesUrls = [];
             for (let i = userJson.user.playcount-step; i >= 0; i -= step) {
-                parameters.page = i;
+                server.parameters.page = i;
                 milestonesUrls.push({
-                    "url": "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks" + formatParams(parameters)
+                    "url": "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks" + server.formatParams(server.parameters)
                 })
             }
             Promise.map(milestonesUrls, (obj) => {
@@ -73,41 +60,30 @@ router.get("/milestones", (req, res) => {
                     let milestone = milestoneResp.recenttracks.track;
                     milestone = milestone.length > 1 ? milestone[1] : milestone[0];
                     const attr = milestoneResp.recenttracks["@attr"];
-                    const milestoneNumb = parseInt(attr.total) - parseInt(attr.page);
+                    let milestoneNumb = attr.totalPages - attr.page;
                     if (parseInt(attr.total) !== userJson.user.playcount) {
-                        req.session.error = "Last.fm API internal error! That's all we know :("
-                        res.redirect("/");
+                        req.error = `Attention! You have ${numeral(userJson.user.playcount - attr.totalPages).format("0,0")} scrobbles without date and other information, so milestones presented below might be inaccurate!`;
+                        milestoneNumb += userJson.user.playcount - attr.totalPages;
                     }
-                    milestone.milestoneNumb = milestoneNumb;
+                    if (milestone) {
+                        milestone.milestoneNumb = milestoneNumb;
+                    }
                     return milestone;
                 })
             }).then((results) => {
                 res.render("milestones", {
                     user: userJson.user,
                     milestones: results,
+                    error: req.error,
+                    success: req.success,
+                    session: req.session,
                     moment: moment,
                     numeral: numeral
                 })
-                // res.send(results);
             }, (err) => {
                 console.log(err);
             })
         });
 });
-
-router.use(function(req, res, next) {
-    res.redirect("/")
-    next();
-})
-
-
-function formatParams(params) {
-    return "&" + Object
-        .keys(params)
-        .map(function (key) {
-            return key + "=" + encodeURIComponent(params[key])
-        })
-        .join("&")
-}
 
 module.exports = router;

@@ -1,15 +1,6 @@
 <%- include('header') -%>
-<body>
-    <div class="content">
-        <nav class="navbar navbar-expand-sm fixed-top navbar-dark d-flex justify-content-center">
-                <a class="navbar-brand text-center" href="/">
-                    <img class="logo" src="/images/logo.svg">
-                    <p class="navbar-brand-text">Milestones</p>
-                </a>
-            </nav>
-<header class="header">
-        <div class="header-img">
-        </div>
+    <header class="header">
+        <div class="header-img"></div>
         <div class="container">
             <div class="center-text">
                 <h4 class="block-bg">wondering which song is your new milestone?</h4>
@@ -17,31 +8,49 @@
             </div>
         </div>
     </header>
-    <% if (session.error) {%>
-        <div class="alert alert-danger">
-            <%=session.error%>
-        </div>
-        <% } %>
-            <div class="container container-margin d-flex justify-content-center">
-                <form action="/milestones" style="padding-bottom: 40px">
-                    <div class="form-group">
-                        <label for="user" class="form-label">Username</label>
-                        <input type="text" name="user" required minlength="1" class="form-control" value=<%= session.user %>>
-                        <br>
-                        <label class="form-label">Step</label>
-                        <div class="toggle-group">
-                            <% let steps = [10000, 5000, 1000, 500, 100] %>
-                                <% for (step of steps) {%>
-                                    <input <% if (step==10000 || step == session.step) {%>checked
-                                    <%}%> type="radio" name="step" id="step-<%=step%>" value="<%= step %>">
-                                                <label for="step-<%=step%>">
-                                                    <%= step %>
-                                                </label>
-                                                <% }%>
-                        </div>
-                        <input type="submit" class="btn btn-primary float-right" value="Submit!">
-                    </div>
-                </form>
+    <div class="container container-margin d-flex justify-content-center">
+        <form action="/milestones" style="padding-bottom: 40px">
+            <div class="form-group">
+                <label for="user" class="form-label">Username</label>
+                <input type="text" name="user" required minlength="1" class="form-control" value=<%= session.user %>>
+                <br>
+                <label class="form-label">Step</label>
+                <p class="additional-info" style="line-height:0px">Note: Last option is customisable!</p>
+                <div class="toggle-group">
+                    <% let steps = [10000, 5000, 1000, 500, 100] %>
+                        <% for (step of steps) {%>
+                            <input <% if (step==10000 || step == session.step) {%>
+                                checked
+                                <%}%> 
+                                type="radio" name="step" id="step-<%=step%>" value="<%= step %>">
+                            <label for="step-<%=step%>">
+                                <%= step %>
+                            </label>
+                        <% }%>
+                        <% const customStep = session.step && (steps.indexOf(session.step) === -1) %>
+                        <input <%= (customStep) ? "checked" : "" %> type="radio" name="step" id="custom" 
+                            value="<%= (customStep) ? session.step : ""%>">
+                        <label for="custom">
+                            <input id="custom-step" class="custom-step" placeholder="0" min="100" type="number"
+                                value="<%= (customStep) ? session.step : ""%>">
+                        </label>
+                </div>
+                <br>
+                <input id="get-milestones" type="submit" class="btn btn-primary float-right" value="Submit!">
             </div>
+        </form>
+    </div>
             
-            <%- include('footer')-%>
+    <script>
+        $("#custom-step").on("click change paste keyup", function() {
+            const value = $(this).val();
+            if (value.length < 6) {
+                $("#custom").val(value);
+            } else {
+                $(this).val(value.substr(0, 6));
+            }
+            $("#custom").prop("checked", true);
+        });
+    </script>
+
+<%- include('footer')-%>

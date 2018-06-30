@@ -1,17 +1,14 @@
 <%- include('header') -%>
 <body>
-    <div class="content" style="background-color:black!important">
-        <nav class="navbar navbar-expand-sm fixed-top navbar-dark d-flex justify-content-center">
-        <a class="navbar-brand text-center" href="/">
-            <img class="logo" src="/images/logo.svg">
-            <p class="navbar-brand-text">Milestones</p>
-        </a>
-            </nav>
+<style>
+.content {
+    background-color:black; 
+}
+</style>
 <header class="header">
         <div class="header-img milestones-img">
         <div class="container">
-                <div class="center-text" style="top:35%">
-                    <div class="row justify-content-start align-items-center">
+                    <div class="row justify-content-start align-items-center center-text" style="top:20%">
                         <div class="col-md-auto col-5">
                             <img class="rounded-circle" src="<%= user.image[2]["#text"]%>" width="150px"/>
                         </div>
@@ -19,11 +16,12 @@
                             <div class="align-middle">
                                 <h4 class="block-bg username"><a href="<%=user.url%>"><%=user.name%></a></h4>
                                 <div class="user-info">
-                                <h4 class="block-bg" style="margin-bottom: 0"><a href="<%=user.url%>/library"><%=user.playcount%> scrobbles</a></h4>
-                                <p class="block-bg additional-info">since <%=moment(user.registered.unixtime * 1000).format("Do MMMM YYYY")%></p>
+                                <h4 class="block-bg" style="margin-bottom: 0"><a href="<%=user.url%>/library"><%=numeral(user.playcount).format("0,0")%> scrobbles</a></h4>
+                                <% const regTime = moment(user.registered.unixtime * 1000);
+                                const dur = moment(moment() - regTime) %>
+                                <div class="block-bg additional-info">since <%=regTime.format("Do MMMM YYYY")%></div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -31,6 +29,7 @@
     </header>
     <div class="row no-gutters justify-content-md-center">
     <% for (milestone of milestones) {%>
+        <% if (milestone) { %>
         <div class="col-lg-3 col-sm-6 col-md-4 col-6" %>>
         
         <a href="<%= milestone.url %>">
@@ -55,6 +54,7 @@
         </div>
     </div>
     </div>
+    <% } %>
     <% } %>
     </div>
 <%- include('footer') -%>

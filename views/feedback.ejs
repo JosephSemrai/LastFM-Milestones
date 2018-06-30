@@ -1,0 +1,31 @@
+<%- include('header') -%>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="container container-margin d-flex justify-content-center">
+        <form method="POST" action="/feedback/send"  style="padding-bottom: 40px">
+            <div class="form-group">
+                <label for="topic" class="form-label">Topic</label>
+                <input type="text" name="topic" id="topic" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="username" class="form-label">Your Last.fm username
+                    <span class="additional-info">(optional)</span>
+                </label>
+                <input type="text" name="name" id="username" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea id="comment" name="comment" class="form-control" style="height: 200px" required></textarea>
+            </div>
+            <div class="form-group">
+                <div class="g-recaptcha" data-callback="captchaCallback" data-sitekey="6Ld8eGEUAAAAALsh8i56mkdlifLQOwj61Y0BJu78"></div>
+            </div>
+            <input id="send" type="submit" class="btn btn-primary float-right" value="Send!" disabled>
+        </form>
+    </div>
+
+    <script>
+        function captchaCallback() {
+            $("#send").removeAttr("disabled");
+        }
+    </script>
+<%- include('footer')-%>

@@ -73,3 +73,7 @@ typings/
 
 # Serverless directories
 .serverless
+
+# Search functionality
+search.js
+views/index_search.ejs
