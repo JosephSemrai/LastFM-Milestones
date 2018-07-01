@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Best tool for discovering last.fm milestone scrobbles!">
     <title>
-        LastMilestones: Your milestone scrobbles
+        <%= (typeof title != "undefined") ? `${title} | LastMilestones` : "LastMilestones: Your Last.fm milestone scrobbles" %>
     </title>
     <link rel="alternate" hreflang="en" href="http://lastmilestones.tk">
     <meta name="msvalidate.01" content="4870E4711CD70E33E61119A578AC236A" />
@@ -28,29 +28,31 @@
 
 <body>
     <div class="content">
-        <nav class="navbar navbar-expand-sm fixed-top navbar-dark">
-            <div class="container">
-                    <a class="text-center" href="/">        
-                        <%- include('logo') -%>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/feedback">Leave feedback</a>
-                        </li>
-                    </ul>
+        <div class="fixed-top">
+            <nav class="navbar navbar-expand-sm navbar-dark">
+                <div class="container">
+                        <a class="text-center" href="/">        
+                            <%- include('logo') -%>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/feedback">Leave feedback</a>
+                            </li>
+                        </ul>
+                </div>
+                </div>
+            </nav>
+            <% if (error) {%>
+            <div class="alert alert-danger">
+                <%=error%>
             </div>
+            <% } else if (success) {%>
+            <div class="alert alert-success">
+                <%=success%>
             </div>
-        </nav>
-        <% if (error) {%>
-        <div class="alert alert-danger">
-            Error: <%=error%>
+            <% } %>
         </div>
-        <% } else if (success) {%>
-        <div class="alert alert-success">
-            <%=success%>
-        </div>
-        <% } %>

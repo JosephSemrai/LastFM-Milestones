@@ -23,9 +23,7 @@
                                 checked
                                 <%}%> 
                                 type="radio" name="step" id="step-<%=step%>" value="<%= step %>">
-                            <label for="step-<%=step%>">
-                                <%= step %>
-                            </label>
+                            <label for="step-<%=step%>"><%= step %></label>
                         <% }%>
                         <% const customStep = session.step && (steps.indexOf(session.step) === -1) %>
                         <input <%= (customStep) ? "checked" : "" %> type="radio" name="step" id="custom" 
@@ -49,8 +47,16 @@
             } else {
                 $(this).val(value.substr(0, 6));
             }
-            $("#custom").prop("checked", true);
+            $("#custom").click();
         });
+        
+        $("#custom").change(() => {
+            $("#custom-step").prop("required", true);
+        });
+
+        $("input[type='radio']").not("#custom").change(() => {
+            $("#custom-step").prop("required", false);
+        })
     </script>
 
 <%- include('footer')-%>

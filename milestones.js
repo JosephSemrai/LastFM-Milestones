@@ -62,7 +62,7 @@ router.get("/", (req, res) => {
                     const attr = milestoneResp.recenttracks["@attr"];
                     let milestoneNumb = attr.totalPages - attr.page;
                     if (parseInt(attr.total) !== userJson.user.playcount) {
-                        req.error = `Attention! You have ${numeral(userJson.user.playcount - attr.totalPages).format("0,0")} scrobbles without date and other information, so milestones presented below might be inaccurate!`;
+                        req.error = `Attention! You have ${numeral(userJson.user.playcount - attr.totalPages).format("0,0")} scrobbles without date, so they are not included in the list below!`;
                         milestoneNumb += userJson.user.playcount - attr.totalPages;
                     }
                     if (milestone) {
@@ -74,6 +74,7 @@ router.get("/", (req, res) => {
                 res.render("milestones", {
                     user: userJson.user,
                     milestones: results,
+                    title: `${username} Milestones`,
                     error: req.error,
                     success: req.success,
                     session: req.session,
