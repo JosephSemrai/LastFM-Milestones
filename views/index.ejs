@@ -42,7 +42,7 @@
     <script>
         $("#custom-step").on("click change paste keyup", function() {
             const value = $(this).val();
-            if (value.length < 6) {
+            if (value.length <= 6) {
                 $("#custom").val(value);
             } else {
                 $(this).val(value.substr(0, 6));

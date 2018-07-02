@@ -77,3 +77,10 @@ typings/
 # Search functionality
 search.js
 views/index_search.ejs
+
+# Test functionality
+test.js
+views/test/*
+
+# UI Illustrator files
+*.ai

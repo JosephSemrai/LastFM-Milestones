@@ -74,9 +74,13 @@ app.get("/sitemap.xml", (req, res) => {
   })
 })
 
-app.use("/milestones", require("./milestones"));
-app.use("/feedback", require("./feedback"));
-// app.use("/search", require("./search"));
+app.use("/milestones", require("./js/milestones"));
+app.use("/feedback", require("./js/feedback"));
+
+if (process.env.DEBUG) {
+  app.use("/test", require("./js/test"));
+  app.use("/search", require("./js/search"));
+}
 
 app.use((req, res, next) => {
   res.redirect("/");

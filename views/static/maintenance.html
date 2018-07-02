@@ -65,18 +65,50 @@
             position: fixed;
         }
 
-        .logo:after {
-            display: block;
+        .last-logo {
+            color: #da0000;
+            font-weight: 700;
+        }
+
+        .milestones-logo {
+            letter-spacing: -0.05em;
+            color: white;
+            font-size: 22pt;
+            padding: 5px;
+        }
+
+        .milestones-logo {
+            line-height: 5px;
+        }
+
+        #static-logo {
+            height: 100px;
             position: absolute;
+            margin: auto;
             left: 0;
             right: 0;
-            top: 28px;
-            content: "Milestones";
+            padding: 20px;
+        }
+
+        .text-logo {
+            vertical-align: middle;
+            height: 50px;
+            bottom: 20px;
+        }
+
+        .logo a {
+            text-decoration: none;
         }
     </style>
     <div class="message">
         <div class="logo">
-            <img src="../../public/images/logo.png">
+            <a href="/">
+                <img id="static-logo" class="logo" src="../../public/images/logo.gif">
+            </a>
+            <a href="/">
+                <p class="last-logo">LAST</p>
+                <p class="milestones-logo">MILESTONES</p>
+            </a>
         </div>
         <div class="message__title">Maintenance in progress!</div>
         <p>We will be online soon!</p>

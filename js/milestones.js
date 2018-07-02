@@ -5,7 +5,7 @@ const requestPromise = require("request-promise");
 const moment = require("moment");
 const numeral = require("numeral");
 const Promise = require("bluebird");
-const server = require("./index");
+const server = require("../index");
 
 router.get("/", (req, res) => {
     if (Object.keys(req.query).length == 0) {
