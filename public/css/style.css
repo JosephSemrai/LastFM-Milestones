@@ -342,6 +342,8 @@ body {
 .milestone-number {
   background-color: red !important;
   font-size: 17pt;
+  padding: 5px;
+  width: fit-content;
 }
 
 .first-scrobble {
@@ -418,4 +420,48 @@ form {
   form {
     width:100%;
   }
+}
+
+.milestone-suggestion {
+  width: 100%;
+  height: 100%; 
+  padding: 20px;
+  display: block;
+  font-size: 28pt;
+  color: white;
+}
+
+@media(max-width: 530px) {
+  .milestone-suggestion {
+    font-size: 13pt;
+  }
+}
+
+.d-flex a:hover {
+  color: white!important;
+  text-decoration: none!important;
+}
+
+.thin {
+  font-weight: 300;
+}
+
+.thick {
+  font-weight: 700;
+}
+
+.normal {
+  font-weight: 500;
+}
+
+.milestone-suggestion p::after {
+  font-size: 150pt;
+  color: rgba(255, 255, 255, 0.25);
+  position: absolute;
+  line-height: unset;
+  bottom: -20px;
+  content: "»";
+  right: 20px;
+  margin:0;
+  padding:0;
 }

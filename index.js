@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const sm = require("sitemap");
+const numeral = require("numeral");
 
 const app = express();
 const parameters = {
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.render("index", {
     session: req.session,
+    numeral: numeral,
     error: req.error,
     success: req.success
   });

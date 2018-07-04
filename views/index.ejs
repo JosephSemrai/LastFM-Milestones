@@ -23,7 +23,7 @@
                                 checked
                                 <%}%> 
                                 type="radio" name="step" id="step-<%=step%>" value="<%= step %>">
-                            <label for="step-<%=step%>"><%= step %></label>
+                            <label for="step-<%=step%>"><%= numeral(step).format("0,0") %></label>
                         <% }%>
                         <% const customStep = session.step && (steps.indexOf(session.step) === -1) %>
                         <input <%= (customStep) ? "checked" : "" %> type="radio" name="step" id="custom" 
