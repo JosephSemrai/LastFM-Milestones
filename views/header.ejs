@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Best tool for discovering last.fm milestone scrobbles!">
     <title>
-        <%= (typeof title != "undefined") ? `${title} | LastMilestones` : "LastMilestones: Your Last.fm milestone scrobbles" %>
+        <%= (typeof title != "undefined") ? `${title} | LastMilestones: Your Last.fm milestone scrobbles` : "LastMilestones: Your Last.fm milestone scrobbles" %>
     </title>
     <link rel="alternate" hreflang="en" href="http://lastmilestones.tk">
     <meta name="msvalidate.01" content="4870E4711CD70E33E61119A578AC236A" />
@@ -22,6 +22,7 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-121524199-1');
+        gtag('set', {'user_id': 'USER_ID'});
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
