@@ -89,7 +89,7 @@ router.post("/", (req, res) => {
           res.render("milestones", {
             user: userJson.user,
             milestones: results,
-            title: `${username} Milestones`,
+            title: `${username} ` + (req.body.ref ? "Suggested Milestone" : "Milestones"),
             error: req.error,
             success: req.success,
             session: req.session,
