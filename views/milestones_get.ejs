@@ -1,0 +1,50 @@
+<%-include("head")-%>
+    <body>
+        <style>
+            body {
+                background: black;
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+                color: white;
+            }
+
+            .block {
+                text-align: center;
+                align-self: center;
+                display: flex;
+                color: gainsboro;
+                flex-direction: column;
+                align-items: center;
+                padding: 0px 20px;
+                max-width: 450px;
+            }
+        </style>
+        <form style="display: none" method="POST" action="/milestones">
+            <input type="text" value="<%= name %>" name="user">
+            <input type="text" value="<%= step %>" name="step">
+            <input type="submit" id="submit">
+        </form>
+
+        <div class="block">
+            <div>
+                <img class="logo" src="/images/logo.gif">
+                <div class="d-block text-logo">
+                    <p class="last-logo">LAST</p>
+                    <p class="milestones-logo">MILESTONES</p>
+                </div>
+            </div>
+            Scanning your library...
+        </div>
+
+        <script>
+            $("#submit").click();
+        </script>
+    </body>
+
+    </html>

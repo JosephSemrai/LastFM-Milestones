@@ -6,6 +6,7 @@ const request = require('request');
 router.get("/", function(req, res) {
     res.render("feedback", {
         error: req.error,
+        title: "Feedback",
         success: req.success
     });
 });

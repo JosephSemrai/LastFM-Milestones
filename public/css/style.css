@@ -37,6 +37,12 @@ body {
   font-size: 22pt;
 }
 
+.fixed-top {
+  background-color: #000;
+  max-height: 75px;
+  min-height: 75px;
+}
+
 .navbar-brand {
   display: flex!important;
 }
@@ -257,8 +263,8 @@ body {
 .content {
   min-height: 100%;
   position: relative;
-  padding-bottom: 50px;
-  padding-top: 74px;
+  padding-bottom: 55px;
+  padding-top: 75px;
 }
 
 .username a {
@@ -268,6 +274,20 @@ body {
 
 .username a:hover {
   color: white;
+}
+
+@media (max-width: 500px) {
+  .username a, .scrobble-count {
+    font-size: 20px;
+  }
+
+  .milestone-info{
+    font-size: 13px!important;
+  }
+
+  .milestone-number {
+    font-size: 13pt!important;
+  }
 }
 
 .milestones-img {

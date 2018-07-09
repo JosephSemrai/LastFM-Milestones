@@ -7,24 +7,28 @@
 </style>
 <header class="header">
         <div class="header-img milestones-img">
-        <div class="container">
+            <div class="container">
                     <div class="row justify-content-start align-items-center center-text" style="top:20%">
-                        <div class="col-md-auto col-5">
+                        <div class="col-md-auto col-6">
                             <img class="rounded-circle" src="<%= user.image[2]["#text"]%>" width="150px"/>
                         </div>
-                        <div class="col-md-auto col-7 user-info">
+                        <div class="col-md-auto col-6 user-info">
                             <div class="align-middle">
-                                <h4 class="block-bg username"><a href="<%=user.url%>"><%=user.name%></a></h4>
+                                <h4 class="block-bg username">
+                                    <a href="<%=user.url%>"><%=user.name%></a>
+                                </h4>
                                 <div class="user-info">
-                                <h4 class="block-bg" style="margin-bottom: 0"><a href="<%=user.url%>/library"><%=numeral(user.playcount).format("0,0")%> scrobbles</a></h4>
-                                <% const regTime = moment(user.registered.unixtime * 1000);
-                                const dur = moment(moment() - regTime) %>
-                                <div class="block-bg additional-info">since <%=regTime.format("Do MMMM YYYY")%></div>
+                                    <h4 class="block-bg scrobble-count" style="margin-bottom: 0"><a href="<%=user.url%>/library"><%=numeral(user.playcount).format("0,0")%> scrobbles</a></h4>
+                                    <% const regTime = moment(user.registered.unixtime * 1000);
+                                    const dur = moment(moment() - regTime) %>
+                                    <div class="block-bg additional-info">
+                                        since <%=regTime.format("D MMM Y")%>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                </div>
+                    </div>
             </div>
-        </div>
         </div>
     </header>
     <div class="row no-gutters justify-content-md-center">
@@ -58,7 +62,7 @@
                         #<%= milestone.milestoneNumb === 0 ? 1 : numeral(milestone.milestoneNumb).format("0,0") %>
                     </div>
                     <div class="block-bg additional-info">
-                        <%= moment(milestone.date.uts * 1000).format("Do MMMM YYYY H:mm") %>
+                        <%= moment(milestone.date.uts * 1000).format("D MMM Y, H:mm") %>
                     </div>
                 </div>
             </div>

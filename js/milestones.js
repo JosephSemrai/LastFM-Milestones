@@ -20,14 +20,14 @@ router.post("/", (req, res) => {
     res.redirect("/");
     return;
   }
-  req.session.user = username;
-  req.session.showFirst = req.body.showFirst;
-  server.parameters.user = username;
   if (step < 100) {
     req.session.error = "Step cannot be less than 100!";
     res.redirect("/");
     return;
   }
+  req.session.user = username;
+  req.session.showFirst = req.body.showFirst;
+  server.parameters.user = username;
   req.session.step = step;
   request.get(
     "http://ws.audioscrobbler.com/2.0/?method=user.getinfo" +
@@ -55,7 +55,8 @@ router.post("/", (req, res) => {
       const startPoint = req.body.showFirst
         ? userJson.user.playcount
         : userJson.user.playcount - step;
-      for (let i = startPoint; i >= 0; i -= step) {
+      const endPoint = req.body.ref ? userJson.user.playcount - 1 * step : 0;
+      for (let i = startPoint; i >= endPoint; i -= step) {
         server.parameters.page = i;
         milestonesUrls.push({
           url:
@@ -109,12 +110,11 @@ router.get("/", (req, res) => {
   const name = req.query.user;
   const step = req.query.step;
   if (name) {
-    req.session.error =
-      "There are some internal changes, please press submit button to proceed!";
-    req.session.user = name;
-    req.session.step = step;
+    res.render("milestones_get", {
+      name: name,
+      step: step
+    });
   }
-  res.redirect("/");
 });
 
 module.exports = router;
