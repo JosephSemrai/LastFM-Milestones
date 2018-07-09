@@ -115,6 +115,7 @@ router.get("/", (req, res) => {
       step: step
     });
   }
+  res.redirect("/");
 });
 
 module.exports = router;
