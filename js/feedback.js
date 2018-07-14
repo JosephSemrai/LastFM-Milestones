@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const server = require("../index");
-const request = require('request');
+const request = require('request-promise');
 
 router.get("/", function(req, res) {
     res.render("feedback", {
@@ -13,23 +13,25 @@ router.get("/", function(req, res) {
 
 router.post("/send", function(req, res) {
     const captcha = req.body["g-recaptcha-response"];
-    request.post({
+    request({
         url: "https://www.google.com/recaptcha/api/siteverify",
         form: {
             secret: process.env.CAPTCHA_SECRET,
             response: captcha
-        }
+        },
+        method: "POST"
     }, (e, r, b) => {
         const bJson = JSON.parse(b);
         if (bJson.success) {
             const text = `*Topic:*\n${req.body["topic"]}\n\n*Username:*\n${req.body["name"]}\n\n*Comment:*\n${req.body["comment"]}`;
-            request.post({
+            request({
                 url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
                 form: {
                     chat_id: process.env.CHAT_ID,
                     text: text,
                     parse_mode: "Markdown",
-                }
+                }, 
+                method: "POST"
             }, (e, r, b) => {
                 const body = JSON.parse(b);
                 if (body.ok) {

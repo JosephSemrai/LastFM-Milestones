@@ -43,6 +43,10 @@ body {
   min-height: 75px;
 }
 
+.copy-link {
+  cursor: pointer;
+}
+
 .navbar-brand {
   display: flex!important;
 }
@@ -182,6 +186,8 @@ body {
   left: -9999px;
 }
 
+
+
 .toggle-group input[type="radio"] {
   visibility: hidden;
   box-sizing: border-box;
@@ -270,6 +276,7 @@ body {
 .username a {
   font-size: 30px;
   color: white;
+  font-weight: 600;
 }
 
 .username a:hover {
@@ -299,8 +306,9 @@ body {
   display: block;
 }
 
-.additional-info {
+.additional-info, .additional-info a {
   font-size: 8pt;
+  padding: 5px;
   color: gray;
 }
 

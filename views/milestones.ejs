@@ -14,9 +14,13 @@
                         </div>
                         <div class="col-md-auto col-6 user-info">
                             <div class="align-middle">
-                                <h4 class="block-bg username">
-                                    <a href="<%=user.url%>"><%=user.name%></a>
-                                </h4>
+                                <div class="username">
+                                    <a class="block-bg" href="<%=user.url%>"><%=user.name%></a>
+                                    <p class="block-bg additional-info">
+                                        <input style="position: absolute; left: -1000px; top: -1000px" type="text" id="link" value="<%= `http://lastmilestones.tk/milestones?user=${user.name}&step=${session.step}`%>">
+                                        <span class="copy-link">Copy permalink to this page!</span>
+                                    </p>
+                                </div>
                                 <div class="user-info">
                                     <h4 class="block-bg scrobble-count" style="margin-bottom: 0"><a href="<%=user.url%>/library"><%=numeral(user.playcount).format("0,0")%> scrobbles</a></h4>
                                     <% const regTime = moment(user.registered.unixtime * 1000);
@@ -70,7 +74,7 @@
                 <div class="d-flex align-items-center col-xl-3 col-lg-3 col-sm-6 col-md-4 col-6">
                     <div class="suggestion-link" id="suggestion-link">
                         <div class="milestone-suggestion">
-                            <p class="thin">Discover your <span class="milestone-number normal">#<%= numeral(selection).format("0,0") %></span> scrobble with a custom step!</p>
+                            <p class="thin">Discover your <span class="milestone-number normal">#<%= numeral(selection).format("0,0") %></span> scrobble!</p>
                         </div>
                     </div>
                     <form method="POST" action="/milestones" class="d-none">
@@ -89,6 +93,12 @@
     <script>
         $("#suggestion-link").on("click", () => {
             $("#showSuggestions").click();
+        });
+
+        $(".copy-link").on("click", () => {
+            $("#link").select();
+            document.execCommand("copy");
+            $(".copy-link").text("Copied to clipboard!");
         });
     </script>
 <%- include('footer') -%>

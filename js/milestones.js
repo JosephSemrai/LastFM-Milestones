@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const request = require("request");
-const requestPromise = require("request-promise");
+const request = require("request-promise");
+const server = require("../index");
 const moment = require("moment");
 const numeral = require("numeral");
 const Promise = require("bluebird");
-const server = require("../index");
 
 router.post("/", (req, res) => {
   if (Object.keys(req.body).length == 0) {
@@ -29,10 +28,10 @@ router.post("/", (req, res) => {
   req.session.showFirst = req.body.showFirst;
   server.parameters.user = username;
   req.session.step = step;
-  request.get(
-    "http://ws.audioscrobbler.com/2.0/?method=user.getinfo" +
-      server.formatParams(server.parameters),
-    (error, getRequest, body) => {
+  const options = {
+    uri: "http://ws.audioscrobbler.com/2.0/?method=user.getinfo" + server.formatParams(server.parameters),
+  };
+  request(options).then(body => {
       const userJson = JSON.parse(body);
       if (userJson.error) {
         req.session.error = `User with name "${username}" was not found!`;
@@ -65,7 +64,7 @@ router.post("/", (req, res) => {
         });
       }
       Promise.map(milestonesUrls, obj => {
-        return requestPromise(obj).then(body => {
+        return request(obj).then(body => {
           const milestoneResp = JSON.parse(body);
           let milestone = milestoneResp.recenttracks.track;
           milestone = milestone.length > 1 ? milestone[1] : milestone[0];
@@ -100,10 +99,8 @@ router.post("/", (req, res) => {
         },
         err => {
           console.log(err);
-        }
-      );
-    }
-  );
+        });
+    })
 });
 
 router.get("/", (req, res) => {
