@@ -17,7 +17,8 @@
     "numeral": "^2.0.6",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "sitemap": "^1.13.0"
+    "sitemap": "^1.13.0",
+    "svg.js": "^2.6.5"
   },
   "license": "ISC"
 }

@@ -59,7 +59,7 @@ router.post("/", (req, res) => {
         server.parameters.page = i;
         milestonesUrls.push({
           url:
-            "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks" +
+            "http://ws.audioscrobbler4.com/2.0/?method=user.getrecenttracks" +
             server.formatParams(server.parameters)
         });
       }
@@ -96,11 +96,14 @@ router.post("/", (req, res) => {
             moment: moment,
             numeral: numeral
           });
-        },
-        err => {
-          console.log(err);
+        }).catch(() => {
+            req.session.error = "Last.fm API is down!";
+            res.redirect("/");
         });
-    })
+    }).catch(() => {
+        req.session.error = "Last.fm API is down!";
+        res.redirect("/");
+    });
 });
 
 router.get("/", (req, res) => {

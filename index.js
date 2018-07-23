@@ -78,6 +78,7 @@ app.get("/sitemap.xml", (req, res) => {
 
 app.use("/milestones", require("./js/milestones"));
 app.use("/feedback", require("./js/feedback"));
+app.use("/playingNow", require("./js/playingNow"));
 
 if (process.env.DEBUG) {
   app.use("/test", require("./js/test"));
