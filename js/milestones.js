@@ -58,9 +58,8 @@ router.post("/", (req, res) => {
       for (let i = startPoint; i >= endPoint; i -= step) {
         server.parameters.page = i;
         milestonesUrls.push({
-          url:
-            "http://ws.audioscrobbler4.com/2.0/?method=user.getrecenttracks" +
-            server.formatParams(server.parameters)
+          uri:
+            "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks" + server.formatParams(server.parameters)
         });
       }
       Promise.map(milestonesUrls, obj => {
@@ -96,11 +95,13 @@ router.post("/", (req, res) => {
             moment: moment,
             numeral: numeral
           });
-        }).catch(() => {
+        }).catch((e) => {
+            console.log(e);
             req.session.error = "Last.fm API is down!";
             res.redirect("/");
         });
-    }).catch(() => {
+    }).catch((e) => {
+        console.log(e);
         req.session.error = "Last.fm API is down!";
         res.redirect("/");
     });
