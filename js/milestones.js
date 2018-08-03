@@ -90,7 +90,7 @@ router.post("/", (req, res) => {
             form: {
               "value1": userJson.user.name,
               "value2": step,
-              "value3": `${req.error ? "Errors: " + req.success : "No errors. "} \nIs Suggested? ${req.body.ref ? "Yes" : "No"}`
+              "value3": `${req.error ? "Errors: " + req.error : "No errors. "} \nIs Suggested? ${req.body.ref ? "Yes" : "No"}`
             }
           })
           res.render("milestones", {
