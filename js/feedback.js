@@ -24,7 +24,7 @@ router.post("/send", function(req, res) {
     }, (e, r, b) => {
         const bJson = JSON.parse(b);
         if (bJson.success) {
-            const text = `❗ <b>New Feedback entry!<b>\n\n<b>Topic:<b>\n${req.body["topic"]}\n\n<b>Username:<b>\n${req.body["name"]}\n\n<b>Comment:<b>\n${req.body["comment"]}`;
+            const text = `❗ *New Feedback entry!*\n\n*Topic:*\n${req.body["topic"]}\n\n*Username:*\n${req.body["name"]}\n\n*Comment:*\n${req.body["comment"]}`;
             request({
                 url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
                 form: {
