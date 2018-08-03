@@ -84,6 +84,15 @@ router.post("/", (req, res) => {
         });
       }).then(
         results => {
+          request({
+            method: "POST",
+            url: "https://maker.ifttt.com/trigger/connection/with/key/pOxZCBIObFvkuqsym7qtp8N7ESO7Q0JphYBtlrmgtbn",
+            form: {
+              "value1": userJson.user.name,
+              "value2": step,
+              "value3": `${req.error ? "Errors: " + req.success : "No errors. "} \nIs Suggested? ${req.body.ref ? "Yes" : "No"}`
+            }
+          })
           res.render("milestones", {
             user: userJson.user,
             milestones: results,
