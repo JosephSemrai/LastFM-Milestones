@@ -137,7 +137,7 @@ function showError(req, res, e) {
 }
 
 function sendLog(options, IP, error) {
-  const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${options.user} \n<b>Step:</b> ${options.step}\n<b>Options: </b>${options.ref ? "suggested milestone" : (options.showFirst ? "show first" : "none")}${error ? "" : `<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${options.user}&step=${options.step}`}\n\n<b>${!error ? "No errors</b>": "Error:</b>\n" + error}\n\n<b>IP: </b>${IP}\n<b>OS:</b> ${require("os").type() + " " +require("os").release()}`;
+  const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${options.user} \n<b>Step:</b> ${options.step}\n<b>Options: </b>${options.ref ? "suggested milestone" : (options.showFirst ? "show first" : "none")}${error ? "" : `<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${options.user}&step=${options.step}`}\n\n<b>${!error ? "No errors</b>": "Error:</b>\n" + error}`;
   request({
     url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
     form: {
