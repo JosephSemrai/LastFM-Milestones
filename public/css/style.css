@@ -436,6 +436,16 @@ body {
   color: white!important;
 }
 
+.alert-info a {
+  color: white;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.alert-info a:hover {
+  color: white;
+}
+
 .nav-link {
   color: gray!important;
 }

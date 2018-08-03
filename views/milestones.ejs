@@ -18,7 +18,7 @@
                                     <a class="block-bg" href="<%=user.url%>"><%=user.name%></a>
                                     <p class="block-bg additional-info">
                                         <input style="position: absolute; left: -1000px; top: -1000px" type="text" id="link" value="<%= `http://lastmilestones.tk/milestones?user=${user.name}&step=${session.step}`%>">
-                                        <span class="copy-link">Copy permalink to this page!</span>
+                                        <span class="copy-link">Share your milestones!</span>
                                     </p>
                                 </div>
                                 <div class="user-info">
@@ -98,7 +98,7 @@
         $(".copy-link").on("click", () => {
             $("#link").select();
             document.execCommand("copy");
-            $(".copy-link").text("Copied to clipboard!");
+            $(".copy-link").text("A link has been copied to your clipboard!");
         });
     </script>
 <%- include('footer') -%>

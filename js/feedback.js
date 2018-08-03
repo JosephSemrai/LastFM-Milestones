@@ -6,6 +6,7 @@ const request = require('request-promise');
 router.get("/", function(req, res) {
     res.render("feedback", {
         error: req.error,
+        url: req.query,
         title: "Feedback",
         success: req.success
     });
@@ -23,7 +24,7 @@ router.post("/send", function(req, res) {
     }, (e, r, b) => {
         const bJson = JSON.parse(b);
         if (bJson.success) {
-            const text = `*Topic:*\n${req.body["topic"]}\n\n*Username:*\n${req.body["name"]}\n\n*Comment:*\n${req.body["comment"]}`;
+            const text = `❗ <b>New Feedback entry!<b>\n\n<b>Topic:<b>\n${req.body["topic"]}\n\n<b>Username:<b>\n${req.body["name"]}\n\n<b>Comment:<b>\n${req.body["comment"]}`;
             request({
                 url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
                 form: {

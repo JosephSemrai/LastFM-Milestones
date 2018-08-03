@@ -7,21 +7,22 @@ const numeral = require("numeral");
 const Promise = require("bluebird");
 
 router.post("/", (req, res) => {
-  if (Object.keys(req.body).length == 0) {
-    req.session.error = "Invalid parameters for processing!";
-    res.redirect("/");
-    return;
-  }
+  let error, info;
   const username = req.body.user.trim();
   const step = isNaN(parseInt(req.body.step)) ? 10000 : parseInt(req.body.step);
+  if (Object.keys(req.body).length == 0) {
+    error = "Invalid parameters for processing!";
+    showError(req, res, error);
+    return;
+  }
   if (username.length < 1) {
-    req.session.error = "Name should be at least 1 character long!";
-    res.redirect("/");
+    error = "Name should be at least 1 character long!";
+    showError(req, res, error);
     return;
   }
   if (step < 100) {
-    req.session.error = "Step cannot be less than 100!";
-    res.redirect("/");
+    error = "Step cannot be less than 100!";
+    showError(req, res, error);
     return;
   }
   req.session.user = username;
@@ -29,24 +30,21 @@ router.post("/", (req, res) => {
   server.parameters.user = username;
   req.session.step = step;
   const options = {
-    uri: "http://ws.audioscrobbler.com/2.0/?method=user.getinfo" + server.formatParams(server.parameters),
+    uri:
+      "http://ws.audioscrobbler.com/2.0/?method=user.getinfo" +
+      server.formatParams(server.parameters)
   };
-  request(options).then(body => {
+  request(options)
+    .then(body => {
       const userJson = JSON.parse(body);
-      if (userJson.error) {
-        req.session.error = `User with name "${username}" was not found!`;
-        res.redirect("/");
-        return;
-      }
       if (Math.round(userJson.user.playcount / step) > 400) {
-        req.session.error =
-          "The result is too long to process, please increase the step!";
-        res.redirect("/");
+        error = "The result is too long to process, please increase the step!";
+        showError(req, res, error);
         return;
       }
       if (Math.floor(userJson.user.playcount / step) <= 0) {
-        req.session.error = `Selected step, ${step}, is bigger than your number of scrobbles! Please decrease the step to see results!`;
-        res.redirect("/");
+        error = `Selected step, ${step}, is bigger than your number of scrobbles! Please decrease the step to see the results!`;
+        showError(req, res, error);
         return;
       }
       server.parameters.limit = 1;
@@ -54,12 +52,13 @@ router.post("/", (req, res) => {
       const startPoint = req.body.showFirst
         ? userJson.user.playcount
         : userJson.user.playcount - step;
-      const endPoint = req.body.ref ? userJson.user.playcount - 1 * step : 0;
+      const endPoint = req.body.ref ? userJson.user.playcount - 1 <b> step : 0;
       for (let i = startPoint; i >= endPoint; i -= step) {
         server.parameters.page = i;
         milestonesUrls.push({
           uri:
-            "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks" + server.formatParams(server.parameters)
+            "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks" +
+            server.formatParams(server.parameters)
         });
       }
       Promise.map(milestonesUrls, obj => {
@@ -70,7 +69,7 @@ router.post("/", (req, res) => {
           const attr = milestoneResp.recenttracks["@attr"];
           let milestoneNumb = attr.totalPages - attr.page;
           if (parseInt(attr.total) !== userJson.user.playcount) {
-            req.error = `Attention! You have ${numeral(
+            info = `Warning! You have ${numeral(
               userJson.user.playcount - attr.totalPages
             ).format(
               "0,0"
@@ -82,21 +81,16 @@ router.post("/", (req, res) => {
           }
           return milestone;
         });
-      }).then(
-        results => {
-          request({
-            method: "POST",
-            url: "https://maker.ifttt.com/trigger/connection/with/key/pOxZCBIObFvkuqsym7qtp8N7ESO7Q0JphYBtlrmgtbn",
-            form: {
-              "value1": userJson.user.name,
-              "value2": step,
-              "value3": `${req.error ? "Errors: " + req.error : "No errors. "} \nIs Suggested? ${req.body.ref ? "Yes" : "No"}`
-            }
-          })
+      })
+        .then(results => {
+          sendLog(req.body);
           res.render("milestones", {
             user: userJson.user,
             milestones: results,
-            title: `${username} ` + (req.body.ref ? "Suggested Milestone" : "Milestones"),
+            info: info,
+            title:
+              `${username} ` +
+              (req.body.ref ? "Suggested Milestone" : "Milestones"),
             error: req.error,
             success: req.success,
             session: req.session,
@@ -104,15 +98,22 @@ router.post("/", (req, res) => {
             moment: moment,
             numeral: numeral
           });
-        }).catch((e) => {
-            console.log(e);
-            req.session.error = "Last.fm API is down!";
-            res.redirect("/");
+        })
+        .catch(e => {
+          error = "Last.fm API is down!";
+          showError(req, res, error);
+          sendLog(req, e);
         });
-    }).catch((e) => {
-        console.log(e);
-        req.session.error = "Last.fm API is down!";
-        res.redirect("/");
+    })
+    .catch(e => {
+      if ((e.statusCode = 404)) {
+        error = `User with name "${username}" was not found!`;
+        showError(req, res, error);
+        return;
+      }
+      error = "Last.fm API is down!";
+      showError(req, res, error);
+      sendLog(req, e);
     });
 });
 
@@ -124,8 +125,27 @@ router.get("/", (req, res) => {
       name: name,
       step: step
     });
-  }
-  res.redirect("/");
+  } else res.redirect("/");
 });
 
+function showError(req, res, e) {
+  const options = req.body;
+  const IP = req.connection.remoteAddress;
+  sendLog(options, IP, e);
+  req.session.error = e;
+  res.redirect("/");
+}
+
+function sendLog(options, IP, error) {
+  const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${options.user} \n<b>Step:</b> ${options.step}\n<b>Options: </b>${options.ref ? "suggested milestone" : (options.showFirst ? "show first" : "none")}${error ? "" : `<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${options.user}&step=${options.step}`}\n\n<b>${!error ? "No errors</b>": "Error:</b>\n" + error}\n\n<b>IP: </b>${IP}\n<b>OS:</b> ${require("os").type() + " " +require("os").release()}`;
+  request({
+    url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
+    form: {
+      chat_id: process.env.CHAT_ID,
+      text: text,
+      parse_mode: "HTML"
+    },
+    method: "POST"
+  });
+}
 module.exports = router;

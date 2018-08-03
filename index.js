@@ -28,6 +28,7 @@ app.use(
     extended: true
   })
 );
+app.enable('trust proxy', true);
 
 app.use(
   cookieSession({
