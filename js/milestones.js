@@ -52,7 +52,9 @@ router.post("/", (req, res) => {
       const startPoint = req.body.showFirst
         ? userJson.user.playcount
         : userJson.user.playcount - step;
-      const endPoint = req.body.ref ? userJson.user.playcount - 1 <b> step : 0;
+      const endPoint = req.body.ref
+        ? userJson.user.playcount - 1 < b > step
+        : 0;
       for (let i = startPoint; i >= endPoint; i -= step) {
         server.parameters.page = i;
         milestonesUrls.push({
@@ -106,14 +108,19 @@ router.post("/", (req, res) => {
         });
     })
     .catch(e => {
-      if ((e.statusCode = 404)) {
-        error = `User with name "${username}" was not found!`;
+      try {
+        if (e.response.body) {
+          error = JSON.parse(e.response.body).message;
+          showError(req, res, error);
+          return;
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        error = "Last.fm API is down!";
         showError(req, res, error);
-        return;
+        sendLog(req, e);
       }
-      error = "Last.fm API is down!";
-      showError(req, res, error);
-      sendLog(req, e);
     });
 });
 
@@ -137,7 +144,19 @@ function showError(req, res, e) {
 }
 
 function sendLog(options, IP, error) {
-  const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${options.user} \n<b>Step:</b> ${options.step}\n<b>Options: </b>${options.ref ? "suggested milestone" : (options.showFirst ? "show first" : "none")}${error ? "" : `<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${options.user}&step=${options.step}`}\n\n<b>${!error ? "No errors</b>": "Error:</b>\n" + error}`;
+  const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${
+    options.user
+  } \n<b>Step:</b> ${options.step}\n<b>Options: </b>${
+    options.ref
+      ? "suggested milestone"
+      : options.showFirst
+        ? "show first"
+        : "none"
+  }<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${
+    options.user
+  }&step=${options.step}\n\n<b>${
+    !error ? "No errors</b>" : "Error:</b>\n" + error
+  }`;
   request({
     url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
     form: {
