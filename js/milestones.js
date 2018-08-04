@@ -161,7 +161,7 @@ function sendLog(options, IP, error) {
   request({
     url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
     form: {
-      chat_id: process.env.CHAT_ID,
+      chat_id: process.env.NEW_SEARCH_CHAT_ID,
       text: text,
       parse_mode: "HTML"
     },
