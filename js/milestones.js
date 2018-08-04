@@ -53,7 +53,7 @@ router.post("/", (req, res) => {
         ? userJson.user.playcount
         : userJson.user.playcount - step;
       const endPoint = req.body.ref
-        ? userJson.user.playcount - 1 < b > step
+        ? userJson.user.playcount - 1 * step
         : 0;
       for (let i = startPoint; i >= endPoint; i -= step) {
         server.parameters.page = i;
@@ -102,25 +102,26 @@ router.post("/", (req, res) => {
           });
         })
         .catch(e => {
+          console.log(e);
           error = "Last.fm API is down!";
           showError(req, res, error);
           sendLog(req, e);
         });
     })
     .catch(e => {
+      console.log(e);
       try {
-        if (e.response.body) {
+        if (e.response.body !== undefined) {
           error = JSON.parse(e.response.body).message;
           showError(req, res, error);
           return;
         }
       } catch (e) {
         console.log(e);
-      } finally {
         error = "Last.fm API is down!";
         showError(req, res, error);
         sendLog(req, e);
-      }
+      }      
     });
 });
 
