@@ -103,13 +103,11 @@ router.post("/", (req, res) => {
         })
         .catch(e => {
           console.log(e);
-          error = "Last.fm API is down!";
-          showError(req, res, error);
-          sendLog(req, e);
+          error = "Failed to connect to Last.fm! Please try again later!";
+          showError(req, res, error, e);
         });
     })
     .catch(e => {
-      console.log(e);
       try {
         if (e.response.body !== undefined) {
           error = JSON.parse(e.response.body).message;
@@ -118,9 +116,8 @@ router.post("/", (req, res) => {
         }
       } catch (e) {
         console.log(e);
-        error = "Last.fm API is down!";
-        showError(req, res, error);
-        sendLog(req, e);
+        error = "Failed to connect to Last.fm! Please try again later!";
+        showError(req, res, error, e);
       }      
     });
 });
@@ -136,15 +133,15 @@ router.get("/", (req, res) => {
   } else res.redirect("/");
 });
 
-function showError(req, res, e) {
+function showError(req, res, e, debug_e) {
   const options = req.body;
   const IP = req.connection.remoteAddress;
-  sendLog(options, IP, e);
+  sendLog(options, IP, e, debug_e);
   req.session.error = e;
   res.redirect("/");
 }
 
-function sendLog(options, IP, error) {
+function sendLog(options, IP, error, debug_e) {
   const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${
     options.user
   } \n<b>Step:</b> ${options.step}\n<b>Options: </b>${
@@ -156,7 +153,7 @@ function sendLog(options, IP, error) {
   }<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${
     options.user
   }&step=${options.step}\n\n<b>${
-    !error ? "No errors</b>" : "Error:</b>\n" + error
+    !error ? "No errors</b>" : "Error:</b>\n" + error + (debug_e ? debug_e.name + debug_e.message : "")
   }`;
   request({
     url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
