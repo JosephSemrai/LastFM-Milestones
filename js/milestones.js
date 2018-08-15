@@ -52,9 +52,7 @@ router.post("/", (req, res) => {
       const startPoint = req.body.showFirst
         ? userJson.user.playcount
         : userJson.user.playcount - step;
-      const endPoint = req.body.ref
-        ? userJson.user.playcount - 1 * step
-        : 0;
+      const endPoint = req.body.ref ? userJson.user.playcount - 1 * step : 1;
       for (let i = startPoint; i >= endPoint; i -= step) {
         server.parameters.page = i;
         milestonesUrls.push({
@@ -85,7 +83,7 @@ router.post("/", (req, res) => {
         });
       })
         .then(results => {
-          sendLog(req.body);
+          if (!process.env.DEBUG) sendLog(req.body);
           res.render("milestones", {
             user: userJson.user,
             milestones: results,
@@ -109,16 +107,13 @@ router.post("/", (req, res) => {
     })
     .catch(e => {
       try {
-        if (e.response.body !== undefined) {
-          error = JSON.parse(e.response.body).message;
-          showError(req, res, error);
-          return;
-        }
+        error = JSON.parse(e.response.body).message;
+        showError(req, res, error);
       } catch (e) {
         console.log(e);
         error = "Failed to connect to Last.fm! Please try again later!";
         showError(req, res, error, e);
-      }      
+      }
     });
 });
 
@@ -136,7 +131,7 @@ router.get("/", (req, res) => {
 function showError(req, res, e, debug_e) {
   const options = req.body;
   const IP = req.connection.remoteAddress;
-  sendLog(options, IP, e, debug_e);
+  if (!process.env.DEBUG) sendLog(options, IP, e, debug_e);
   req.session.error = e;
   res.redirect("/");
 }
@@ -153,7 +148,9 @@ function sendLog(options, IP, error, debug_e) {
   }<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${
     options.user
   }&step=${options.step}\n\n<b>${
-    !error ? "No errors</b>" : "Error:</b>\n" + error + (debug_e ? debug_e.name + debug_e.message : "")
+    !error
+      ? "No errors</b>"
+      : "Error:</b>\n" + error + (debug_e ? debug_e.name + debug_e.message : "")
   }`;
   request({
     url: `https://api.telegram.org/bot${process.env.BOT_KEY}/sendMessage`,
