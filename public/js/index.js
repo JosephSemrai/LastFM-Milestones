@@ -19,6 +19,7 @@ $("input[type='radio']")
   });
 
 $.get("/api/recentRequests", data => {
+  if (data.length <= 1) return;
   let slides = [];
   data.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
@@ -68,13 +69,13 @@ $.get("/api/recentRequests", data => {
             {
               breakpoint: 1024,
               settings: {
-                slidesToShow: slides.length < 5 ? slides.length - 1 : 5
+                slidesToShow: slides.length <= 5 ? slides.length - 1 : 5
               }
             },
             {
               breakpoint: 600,
               settings: {
-                slidesToShow: slides.length < 3 ? slides.length - 1 : 3
+                slidesToShow: slides.length <= 3 ? slides.length - 1 : 3
               }
             },
             {
