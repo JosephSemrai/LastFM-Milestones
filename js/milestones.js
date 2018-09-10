@@ -5,6 +5,7 @@ const server = require("../index");
 const moment = require("moment");
 const numeral = require("numeral");
 const Promise = require("bluebird");
+const db = require("mongodb");
 
 router.post("/", (req, res) => {
   let error, info;
@@ -137,6 +138,29 @@ function showError(req, res, e, debug_e) {
 }
 
 function sendLog(options, IP, error, debug_e) {
+  let client = db.MongoClient;
+  client
+    .connect(
+      process.env.MONGODB,
+      {
+        useNewUrlParser: true
+      }
+    )
+    .then(client => {
+      let db = client.db("lastmilestones");
+      let collection = db.collection(process.env.DEBUG ? "requests" : "requests-release");
+      collection.insertOne({
+        user: options.user,
+        suggestedMilestone: options.ref,
+        showFirst: options.showFirst,
+        step: options.step,
+        error: error,
+        date: moment().toDate()
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
   const text = `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${
     options.user
   } \n<b>Step:</b> ${options.step}\n<b>Options: </b>${

@@ -80,6 +80,7 @@ views/index_search.ejs
 
 # Test functionality
 test.js
+logs.js
 views/test/*
 
 # UI Illustrator files

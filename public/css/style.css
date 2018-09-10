@@ -4,16 +4,18 @@ body {
     Sans-serif;
   margin: 0;
   padding: 0;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .logo {
   height: 50px;
 }
 
-.last-logo { 
+.last-logo {
   padding: 0;
-  margin : 0;
+  margin: 0;
 }
 
 .milestones-logo {
@@ -48,7 +50,7 @@ body {
 }
 
 .navbar-brand {
-  display: flex!important;
+  display: flex !important;
 }
 
 #animated-logo {
@@ -88,7 +90,7 @@ body {
 }
 
 .header-img {
-  min-height: 350px;
+  min-height: 200px;
   background-position: top;
   background-image: url("/images/header.jpg");
 }
@@ -105,7 +107,8 @@ body {
 }
 
 .center-text {
-  top: 40%;
+  top: 50%;
+  transform: translateY(-50%);
   position: absolute;
 }
 
@@ -162,7 +165,7 @@ body {
   text-align: center;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0);
   transition: border-color 0.15s ease-out, color 0.25s ease-out,
-  background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+    background-color 0.15s ease-out, box-shadow 0.15s ease-out;
 }
 
 .suggestion-link {
@@ -185,8 +188,6 @@ body {
   position: absolute;
   left: -9999px;
 }
-
-
 
 .toggle-group input[type="radio"] {
   visibility: hidden;
@@ -211,7 +212,8 @@ body {
   border-color: #9da1a5;
 }
 
-.form-group input:focus, textarea:focus {
+.form-group input:focus,
+textarea:focus {
   box-shadow: 0 0 10px rgba(146, 146, 146, 0.5) !important;
   border-color: rgb(129, 128, 128) !important;
 }
@@ -221,7 +223,6 @@ body {
   color: #fff;
   box-shadow: 0 0 10px rgb(213, 16, 7, 0.5) !important;
   border-color: rgb(182, 17, 8) !important;
-  z-index: 1;
 }
 
 .toggle-group input:focus + label {
@@ -248,7 +249,6 @@ body {
 }
 
 .footer {
-  position: absolute;
   font-size: 9pt;
   color: #707070;
   bottom: 0;
@@ -256,6 +256,9 @@ body {
   padding: 15px;
   width: 100%;
   background-color: #000;
+  flex: 0 0 50px;
+  margin-top: auto;
+  z-index: 1;
 }
 
 .footer a {
@@ -269,7 +272,6 @@ body {
 .content {
   min-height: 100%;
   position: relative;
-  padding-bottom: 55px;
   padding-top: 75px;
 }
 
@@ -283,40 +285,45 @@ body {
   color: white;
 }
 
+.username {
+  width: fit-content;
+}
+
 @media (max-width: 500px) {
-  .username a, .scrobble-count {
+  .username a {
     font-size: 20px;
   }
 
-  .milestone-info{
-    font-size: 13px!important;
+  .milestone-info {
+    font-size: 13px !important;
   }
 
   .milestone-number {
-    font-size: 13pt!important;
+    font-size: 13pt !important;
   }
-}
-
-.milestones-img {
-  background-position: center;
-  min-height: 250px !important;
 }
 
 .user-info {
   display: block;
 }
 
-.additional-info, .additional-info a {
+.additional-info,
+.additional-info a {
   font-size: 8pt;
   padding: 5px;
   color: gray;
+  width: fit-content;
+}
+
+.form-group .additional-info {
+  padding: 0!important;
 }
 
 .milestone-cover {
-  height:100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb');
+  background-image: url("https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb");
 }
 
 .milestone-cover > img {
@@ -373,9 +380,13 @@ body {
 
 .milestone-number {
   background-color: red !important;
-  font-size: 17pt;
-  padding: 5px;
+  color: white;
   width: fit-content;
+  padding: 0.3em;
+  font-size: 1.5rem;
+  line-height: 1em;
+  display: table;
+  position: relative;
 }
 
 .first-scrobble {
@@ -432,8 +443,8 @@ body {
 }
 
 .alert-info {
-  background-color: gray!important;
-  color: white!important;
+  background-color: gray !important;
+  color: white !important;
 }
 
 .alert-info a {
@@ -447,41 +458,41 @@ body {
 }
 
 .nav-link {
-  color: gray!important;
+  color: gray !important;
 }
 
 .nav-link:hover {
-  color: white!important;
+  color: white !important;
 }
 
 form {
-  width:60%;
+  width: 60%;
 }
 
 @media (max-width: 1200px) {
   form {
-    width:100%;
+    width: 100%;
   }
 }
 
 .milestone-suggestion {
   width: 100%;
-  height: 100%; 
+  height: 100%;
   padding: 20px;
   display: block;
   font-size: 28pt;
   color: white;
 }
 
-@media(max-width: 530px) {
+@media (max-width: 530px) {
   .milestone-suggestion {
     font-size: 13pt;
   }
 }
 
 .d-flex a:hover {
-  color: white!important;
-  text-decoration: none!important;
+  color: white !important;
+  text-decoration: none !important;
 }
 
 .thin {
@@ -504,6 +515,127 @@ form {
   bottom: -20px;
   content: "»";
   right: 20px;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
+}
+
+.recentRequests {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  background: #000;
+  color: white;
+  padding: 20px;
+  padding-bottom: 55px;
+  display: none;
+}
+
+.slide {
+  display: block;
+  position: relative;
+  width: 250px;
+  height: 65px;
+  float: left;
+  margin: 0 30px 0 0;
+  padding: 5px 0px 0px 65px;
+  border-top: 1px solid #2f2f2f;
+  border-bottom: 1px solid #2f2f2f;
+}
+
+.slide-image {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 1px;
+  width: 51px;
+  height: 51px;
+  border: 1px solid #2f2f2f;
+  border-radius: 50%;
+}
+
+.recentRequests h4 {
+  color: #b6c0bf;
+  padding: 10px;
+}
+
+.slide_name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  font-size: 18px;
+  line-height: 18px;
+  color: #f9f9f9;
+}
+
+.recentRequests a:hover {
+  text-decoration: none !important;
+  color: #b90000 !important;
+}
+
+.recentRequests a {
+  color: #f9f9f9 !important;
+}
+
+.recentRequests .additional-info {
+  padding: 0px;
+}
+
+@media (max-height: 750px) {
+  .footer {
+    position: relative;
+  }
+  .recentRequests {
+    position: relative;
+    padding-bottom: 0px !important;
+  }
+  .fixed-top {
+    position: absolute !important;
+  }
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  color: black;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+input[type="checkbox"] + label:last-child {
+  margin-bottom: 0;
+}
+
+input[type="checkbox"] + label:before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #b90000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.6;
+  -webkit-transition: all 0.12s, border-color 0.08s;
+  transition: all 0.12s, border-color 0.08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

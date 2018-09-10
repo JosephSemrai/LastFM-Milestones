@@ -14,6 +14,8 @@
     "ejs": "^2.6.1",
     "express": "*",
     "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
+    "mongodb": "^3.1.4",
     "numeral": "^2.0.6",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",

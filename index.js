@@ -1,8 +1,8 @@
 const express = require("express");
 const path = require("path");
+const moment = require("moment-timezone");
 const cookieSession = require("cookie-session");
 const sm = require("sitemap");
-const numeral = require("numeral");
 
 const app = express();
 const parameters = {
@@ -10,15 +10,17 @@ const parameters = {
   api_key: process.env.API_KEY
 };
 
+moment.tz.guess();
+
 const sitemap = sm.createSitemap({
   hostname: "http://lastmilestones.tk",
   cacheTime: 600000,
   urls: [
-    {url: "/", changeFreq: 'daily', priority: 0.6},
-    {url: "/milestones", changeFreq: 'daily', priority: 0.3},
-    {url: "/feedback", changeFreq: 'monthly', priority: 0.1}
+    { url: "/", changeFreq: "daily", priority: 0.6 },
+    { url: "/milestones", changeFreq: "daily", priority: 0.3 },
+    { url: "/feedback", changeFreq: "monthly", priority: 0.1 }
   ]
-})
+});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -28,7 +30,7 @@ app.use(
     extended: true
   })
 );
-app.enable('trust proxy', true);
+app.enable("trust proxy", true);
 
 app.use(
   cookieSession({
@@ -58,32 +60,26 @@ app.use((req, res, next) => {
   } else next();
 });
 
-app.get("/", (req, res) => {
-  res.render("index", {
-    session: req.session,
-    numeral: numeral,
-    error: req.error,
-    success: req.success
-  });
-});
-
 app.get("/sitemap.xml", (req, res) => {
   sitemap.toXML((e, xml) => {
     if (e) {
       return res.status(500).end();
     }
-    res.header('Content-Type', 'application/xml');
+    res.header("Content-Type", "application/xml");
     res.send(xml);
-  })
-})
+  });
+});
 
+app.use("/", require("./js/index"));
 app.use("/milestones", require("./js/milestones"));
 app.use("/feedback", require("./js/feedback"));
-app.use("/widgets", require("./js/widgets"));
+app.use("/api", require("./js/api"));
 
 if (process.env.DEBUG) {
   app.use("/test", require("./js/test"));
   app.use("/search", require("./js/search"));
+  app.use("/logs", require("./js/logs"));
+  app.use("/widgets", require("./js/widgets"));
 }
 
 app.use((req, res, next) => {

@@ -1,15 +1,16 @@
 <%- include('header') -%>
     <header class="header">
-        <div class="header-img"></div>
-        <div class="container">
-            <div class="center-text">
-                <h4 class="block-bg">wondering which song is your new milestone?</h4>
-                <h5 class="block-bg">just enter your username below!</h5>
+        <div class="header-img">  
+        <div class="container">  
+        <div class="center-text">    
+                    <h4 class="block-bg">wondering which song is your new milestone?</h4>
+                    <h5 class="block-bg">just enter your username below!</h5>
+                </div>
             </div>
         </div>
     </header>
     <div class="container container-margin d-flex justify-content-center">
-        <form method="POST" action="/milestones" style="padding-bottom: 40px">
+        <form method="POST" action="/milestones">
             <div class="form-group">
                 <label for="user" class="form-label">Last.fm Username</label>
                 <input type="text" name="user" required minlength="1" class="form-control" value=<%= session.user %>>
@@ -49,25 +50,16 @@
         </form>
         </div>
     </div>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-    <script>
-        $("#custom-step").on("click change paste keyup", function() {
-            let value = $(this).val();
-            if (value.length >= 6) {
-                value = value.substr(0, 6);
-            }
-            $("#custom").val(value);
-            $(this).val(value);
-            $("#custom").click();
-        });
-        
-        $("#custom").change(() => {
-            $("#custom-step").prop("required", true);
-        });
+            
+    <div class="recentRequests">
+    <div class="container">
+        <h4>Searching Now</h4>
+        <div class="slidesContainer d-flex justify-content-center">
 
-        $("input[type='radio']").not("#custom").change(() => {
-            $("#custom-step").prop("required", false);
-        })
-    </script>
+        </div>
+    </div>
+</div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="js/index.js"></script>
 
 <%- include('footer')-%>
