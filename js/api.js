@@ -2,7 +2,8 @@ const express = require("express");
 const Router = express.Router();
 const db = require("mongodb");
 const moment = require("moment");
-const request = require("request");
+const request = require("request-promise");
+const Promise = require("bluebird");
 
 Router.get("/recentRequests", (req, res) => {
   let client = db.MongoClient;
@@ -30,32 +31,24 @@ Router.get("/recentRequests", (req, res) => {
         .sort({ datefield: -1 })
         .toArray()
         .then(result => {
-          res.json(result);
-        })
-        .catch(err => {
-          console.log(err);
+          Promise.map(result, obj => {
+            return request(
+              `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${obj.user}&api_key=${
+                process.env.API_KEY
+              }&format=json`
+            ).then(response => {
+              response = JSON.parse(response);
+              obj["image"] = response.user.image[1]["#text"]
+              return obj;
+            });
+          }).then(results => {
+            res.send(results);
+          });
         });
     })
     .catch(err => {
       console.log(err);
     });
-});
-
-Router.get("/getImage/:username", (req, res) => {
-  request.get(
-    `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${
-      req.params.username
-    }&api_key=ec30204c033e99e3eb261b58374085c3&format=json`,
-    (err, resp, body) => {
-      try {
-        if (err) console.log(err);
-        if (resp.statusCode === 200) res.json(body);
-      } catch (err) {
-        console.log(err);
-        res.status(404).send("Failed!");
-      }
-    }
-  );
 });
 
 module.exports = Router;
