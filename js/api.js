@@ -28,7 +28,8 @@ Router.get("/recentRequests", (req, res) => {
           }
         })
         .project({ _id: 0, user: 1, step: 1 })
-        .sort({ datefield: -1 })
+        .sort({ date: -1})
+        .limit(20)
         .toArray()
         .then(result => {
           Promise.map(result, obj => {
