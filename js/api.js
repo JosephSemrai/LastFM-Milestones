@@ -33,15 +33,16 @@ Router.get("/recentRequests", (req, res) => {
         .toArray()
         .then(result => {
           Promise.map(result, obj => {
-            return request(
-              `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${obj.user}&api_key=${
-                process.env.API_KEY
-              }&format=json`
-            ).then(response => {
-              response = JSON.parse(response);
-              obj["image"] = response.user.image[1]["#text"]
-              return obj;
-            });
+            // return request(
+            //   `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${obj.user}&api_key=${
+            //     process.env.API_KEY
+            //   }&format=json`
+            // ).then(response => {
+            //   response = JSON.parse(response);
+            //   obj["image"] = response.user.image[1]["#text"]
+            //   return obj;
+            // });
+            return obj;
           }).then(results => {
             res.send(results);
           });

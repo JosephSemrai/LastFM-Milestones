@@ -521,12 +521,11 @@ form {
 
 .recentRequests {
   bottom: 0;
-  position: absolute;
+  position: sticky;
   width: 100%;
   background: #000;
   color: white;
   padding: 20px;
-  padding-bottom: 55px;
   display: none;
 }
 
