@@ -1,10 +1,10 @@
 const express = require("express");
 const path = require("path");
 const moment = require("moment-timezone");
-moment.tz.guess();
 const cookieSession = require("cookie-session");
 
 const app = express();
+moment.tz.guess();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

@@ -4,47 +4,36 @@ const moment = require("moment");
 const numeral = require("numeral");
 const Promise = require("bluebird");
 const db = require("mongodb");
-const utils = require("../js/utils");
 const server = require("../server");
+const LastFM = require("../js/lastfm");
 
 const router = express.Router();
 
 router.post("/", (req, res) => {
-  new Promise((resolve, reject) => {
-    const name = req.body.user.trim();
-    const step = isNaN(parseInt(req.body.step))
-      ? 10000
-      : parseInt(req.body.step);
-    if (!name) reject("Name should be at least 1 character long!");
-    if (step < 100) reject("Step cannot be less than 100!");
-    req.session.user = name;
-    req.session.showFirst = req.body.showFirst;
-    req.session.step = step;
-    const reqUrl = `http://${
-      server.address === "::" ? `127.0.0.1:${server.port}` : JSON.stringify(server)
-    }/milestones/${name}&step=${step}`;
-    resolve(reqUrl);
-  })
+  const name = req.body.user.trim();
+  const step = isNaN(parseInt(req.body.step)) ? 10000 : parseInt(req.body.step);
+  const showFirst = req.body.showFirst;
+  const ref = req.body.ref;
+  req.session.user = name;
+  req.session.showFirst = showFirst;
+  req.session.step = step;
+  LastFM.getUserMilestones(name, step, showFirst, ref)
     .then(results => {
-      // if (!process.env.DEBUG) sendLog(req.body);
-      // res.render("milestones", {
-      //   user: userJson.user,
-      //   milestones: results,
-      //   info: info,
-      //   title:
-      //     `${username} ` +
-      //     (req.body.ref ? "Suggested Milestone" : "Milestones"),
-      //   session: req.session,
-      //   ref: req.body.ref,
-      //   moment: moment,
-      //   numeral: numeral
-      // });
-      res.send(results);
+      console.log(results);
+      res.render("milestones", {
+        user: results.user,
+        milestones: results.milestones,
+        info: "info",
+        title:
+          `${name} ` + (req.body.ref ? "Suggested Milestone" : "Milestones"),
+        session: req.session,
+        ref: req.body.ref,
+        moment: moment,
+        numeral: numeral
+      });
     })
-    .catch(e => {
-      console.log(e);
-      error = "Failed to connect to Last.fm! Please try again later!";
-      showError(req, res, error, e);
+    .catch(err => {
+      showError(req, res, err.message, err);
     });
 });
 
