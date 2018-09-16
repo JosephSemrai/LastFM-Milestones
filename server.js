@@ -34,17 +34,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", require("./js"));
-app.use("/milestones", require("./js/milestones"));
-app.use("/feedback", require("./js/feedback"));
-app.use("/api", require("./js/api"));
-app.use("/sitemap", require("./js/sitemap"));
+app.use("/", require("./js/routes"));
+app.use("/milestones", require("./js/routes/milestones"));
+app.use("/feedback", require("./js/routes/feedback"));
+app.use("/api", require("./js/routes/api"));
+app.use("/sitemap", require("./js/routes/sitemap"));
 
 if (process.env.DEBUG) {
-  app.use("/test", require("./js/test"));
-  app.use("/search", require("./js/search"));
-  app.use("/logs", require("./js/logs"));
-  app.use("/widgets", require("./js/widgets"));
+  app.use("/test", require("./js/routes/test"));
+  app.use("/search", require("./js/routes/search"));
+  app.use("/logs", require("./js/routes/logs"));
+  app.use("/widgets", require("./js/routes/widgets"));
 }
 
 app.use((req, res, next) => {

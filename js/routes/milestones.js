@@ -2,10 +2,10 @@ const express = require("express");
 const request = require("request-promise");
 const moment = require("moment");
 const numeral = require("numeral");
-const Promise = require("bluebird");
 const db = require("mongodb");
-const server = require("../server");
-const LastFM = require("../js/lastfm");
+const LastFM = require("../lastfm");
+const strings = require("../strings");
+const MilestoneError = require("../errors/MilestoneError");
 
 const router = express.Router();
 
@@ -18,8 +18,10 @@ router.post("/", (req, res) => {
   req.session.showFirst = showFirst;
   req.session.step = step;
   LastFM.getUserMilestones(name, step, showFirst, ref)
+    .finally(() => {
+      console.log("finised");
+    })
     .then(results => {
-      console.log(results);
       res.render("milestones", {
         user: results.user,
         milestones: results.milestones,
@@ -33,8 +35,16 @@ router.post("/", (req, res) => {
       });
     })
     .catch(err => {
-      showError(req, res, err.message, err);
-    });
+      if (err instanceof MilestoneError) {
+        req.session.error = err.message;
+        res.redirect("/");
+      } else {
+        console.log(err);
+        req.session.error = strings.unknownError.en;
+        res.redirect("/");
+      }
+      sendLog(err);
+    })
 });
 
 router.get("/", (req, res) => {
@@ -47,13 +57,6 @@ router.get("/", (req, res) => {
     });
   } else res.redirect("/");
 });
-
-function showError(req, res, e, debug_e) {
-  const options = req.body;
-  if (!process.env.DEBUG) sendLog(options, IP, e, debug_e);
-  req.session.error = e;
-  res.redirect("/");
-}
 
 function sendLog(options, IP, error, debug_e) {
   let client = db.MongoClient;

@@ -3,7 +3,7 @@ const db = require("mongodb");
 const moment = require("moment");
 const request = require("request-promise");
 const Promise = require("bluebird");
-const LastFM = require("../js/lastfm");
+const LastFM = require("../lastfm");
 
 const Router = express.Router();
 

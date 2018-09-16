@@ -1,6 +1,7 @@
 const request = require("request-promise");
 const strings = require("./strings");
 const { URL, URLSearchParams } = require("url");
+const MilestoneError = require("./errors/MilestoneError");
 
 class LastFM {
   constructor(apiKey, format = "json") {
@@ -15,7 +16,7 @@ class LastFM {
   }
 
   async getSongAtPosition(position, name) {
-    if (!name) throw Error(strings.nameLength.en);
+    if (!name) throw MilestoneError(strings.nameLength.en);
     name = name.trim();
     const url = new URL(this.entryPoint);
     url.searchParams.append("method", "user.getrecenttracks");
@@ -41,7 +42,7 @@ class LastFM {
   }
 
   async getUserInfo(name) {
-    if (!name) throw Error(strings.nameLength.en);
+    if (!name) throw MilestoneError(strings.nameLength.en);
     name = name.trim();
     const url = new URL(this.entryPoint);
     url.searchParams.append("method", "user.getinfo");
@@ -56,7 +57,7 @@ class LastFM {
       return body;
     }).catch(err => {
         console.log(err);
-        throw new Error(strings.lastAPIDown.en);
+        throw new MilestoneError(strings.lastAPIDown.en);
     });
     return body;
   }
@@ -67,14 +68,14 @@ class LastFM {
     includeFirst = false,
     onlyOne = false
   ) {
-    if (!name) throw Error(strings.nameLength.en);
+    if (!name) throw MilestoneError(strings.nameLength.en);
     name = name.trim();
-    if (step < 100) throw new Error(strings.stepErr.en);
+    if (step < 100) throw new MilestoneError(strings.stepErr.en);
     const milestones = await this.getUserInfo(name).then(user => {
       if (Math.round(user.playcount / step) > 400)
-        throw new Error(strings.longProcess.en);
+        throw new MilestoneError(strings.longProcess.en);
       if (Math.floor(user.playcount / step) <= 0)
-        throw new Error(strings.stepBiggerThanPlaycount.en(step));
+        throw new MilestoneError(strings.stepBiggerThanPlaycount.en(step));
       const startPoint = includeFirst ? user.playcount : user.playcount - step;
       const endPoint = onlyOne ? user.playcount - step : 1;
       const promises = [];

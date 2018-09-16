@@ -14,16 +14,19 @@ module.exports = {
     }
   },
   milestoneTitle: {
-      en: user => {
-          return `${user} Milestones`
-      }
+    en: user => {
+      return `${user} Milestones`;
+    }
   },
   suggestedMilestoneTitle: {
-      en: user => {
-          return `${user} suggested milestone`
-      }
+    en: user => {
+      return `${user} suggested milestone`;
+    }
   },
   lastAPIDown: {
-      en: "Last.fm API is unreachable, please try again later!"
+    en: "Last.fm API is unreachable, please try again later!"
+  },
+  unknownError: {
+    en: "Something unpredictable happened, the developer has been notified."
   }
 };
