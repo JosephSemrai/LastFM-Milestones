@@ -19,18 +19,17 @@ $("input[type='radio']")
   });
 
 $.get("/api/recentRequests", data => {
-  if (data.length <= 1) return;
-  for (let entry of data) {
-    let user = entry.user;
+  if (data.log.length <= 1) return;
+  for (let entry of data.log) {
     let div = $("<div>");
     div.addClass("slide");
     let info = $("<div>");
     let link = $("<a>");
     link.attr(
       "href",
-      `/milestones?user=${user}&step=${entry.step ? entry.step : 10000}`
+      `/milestones?user=${entry.name}&step=${entry.step ? entry.step : 10000}`
     );
-    link.text(`${user}`);
+    link.text(`${entry.name}`);
     link.addClass("slide_name");
     info.append(link);
     let img = $("<img>");
@@ -61,13 +60,13 @@ $.get("/api/recentRequests", data => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: data.length <= 5 ? data.length - 1 : 5
+          slidesToShow: data.log.length <= 5 ? data.log.length - 1 : 5
         }
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: data.length <= 3 ? data.length - 1 : 3
+          slidesToShow: data.log.length <= 3 ? data.log.length - 1 : 3
         }
       },
       {

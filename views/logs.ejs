@@ -1,0 +1,55 @@
+<%- include('header') -%>
+<div class="container container-margin">
+    <table class="table table-sm" data-toggle="table">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center" data-order='desc' data-field="#" data-sortable="true">#</th>
+                <th scope="col" class="text-center" data-order='desc' data-field="name" data-sortable="true">Name</th>
+                <th scope="col" class="text-center" data-order='desc' data-field="step" data-sortable="true">Step</th>
+                <th scope="col" class="text-center" data-order='desc' data-field="options" data-sortable="true">Options</th>
+                <th scope="col" class="text-center" data-order='desc' data-field="error" data-sortable="true">Error</th>
+                <th scope="col" class="text-center" data-order='desc' data-field="date" data-sortable="true">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% logs.log.forEach((log, index) => { %>
+            <tr class="<%= log.error ? `table-warning` : `` %>">
+                <td scope="row" class="text-center">
+                    <b><%= offset + index + 1 %></b>
+                </td>
+                <td>
+                    <img class="rounded-circle" width="50px" style="margin:10px" src="<%= log.image %>"><%= log.name %>
+                </td>
+                <td>
+                    <%= log.step %>
+                </td>
+                <td>
+                    <%= log.isSuggested ? `Suggested` : log.showFirst ? `Show first` : ""%>
+                </td>
+                <td>
+                    <%= log.error %>
+                </td>
+                <td>
+                    <%= moment(log.date).format(`D MMMM YYYY, HH:mm:ss`) %>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <nav style="padding: 20px">
+        <ul class="pagination justify-content-center">
+            <li class="page-prev">
+                <a class="" href="/admin/logs?offset=<%= offset - limit < 0 ? 0 : offset - limit %>">Previous</a>
+            </li>
+            <% for (let i = 0; i < totalPages; i++) { %>
+            <li class="page-item <%= logs.page == i + 1 ? `page-current` : ``%>">
+                <a class="" href="/admin/logs?offset=<%= i * limit %>"><%= i + 1 %></a>
+            </li>
+            <% } %>
+            <li class="page-next">
+                <a class="" href="/admin/logs?offset=<%= (offset + limit) >= logs.totalPages * limit ? offset : offset + limit %>">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<%- include('footer')-%>

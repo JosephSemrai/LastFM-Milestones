@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const server = require("../index");
 const request = require('request-promise');
 
 router.get("/", function(req, res) {

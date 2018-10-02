@@ -1,0 +1,130 @@
+#timeline {
+  position: relative;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  margin-bottom: -2px;
+}
+#timeline .line:after {
+  content: "";
+  width: 4px;
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0rem;
+  left: 59px;
+  z-index: 1;
+  background: #b90000;
+}
+#timeline h3 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 8.5rem;
+  color: black;
+  margin: 0;
+  font-size: 1em;
+  font-weight: 700;
+}
+@media (min-width: 62em) {
+  #timeline h3 {
+    font-size: 1.1em;
+  }
+}
+#timeline section.year {
+  position: relative;
+}
+#timeline section.year section {
+  margin-top: -1.3em;
+  padding-bottom: 0px;
+}
+#timeline section.year section {
+  position: relative;
+  padding-bottom: 1.5em;
+  margin-bottom: 3em;
+}
+#timeline section.year section h4 {
+  position: absolute;
+  bottom: -15px;
+  font-size: 0.9em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 0 0 83px;
+  color: #999;
+}
+@media (min-width: 62em) {
+  #timeline section.year section h4 {
+    font-size: 1em;
+  }
+}
+#timeline section.year section ul {
+  list-style-type: none;
+  padding: 0 0 0 75px;
+  margin: -1.35rem 0 1em;
+  font-size: 1em;
+}
+@media (min-width: 62em) {
+  #timeline section.year section ul {
+    font-size: 1.1em;
+    padding: 0 0 0 81px;
+  }
+}
+#timeline section.year section ul:last-child {
+  margin-bottom: 0;
+}
+#timeline section.year section ul.milestone:first-of-type:after {
+  content: "";
+  width: 25px;
+  height: 25px;
+  background: #b90000;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  position: absolute;
+  left: 48px;
+  top: 3px;
+  z-index: 2;
+}
+#timeline section.year section ul.suggested:first-of-type:after {
+  content: "";
+  width: 25px;
+  height: 25px;
+  background: white;
+  border: 4px solid gray;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  padding: 2px;
+  border-radius: 50%;
+  position: absolute;
+  left: 48px;
+  top: 3px;
+  z-index: 2;
+}
+#timeline section.year section ul li {
+  margin-left: 0.5rem;
+}
+#timeline section.year section ul li:not(:first-child) {
+  margin-top: 0.5rem;
+}
+#timeline .suggested-line:after {
+  content: "";
+  width: 4px;
+  position: absolute;
+  top: -50px;
+  bottom: 30px;
+  left: 59px;
+  z-index: 1;
+  background: linear-gradient(#b90000, gray 10%, white 80%);
+}
+@media (max-height: 750px) {
+  #timeline h3 {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 1rem;
+    color: black;
+    margin: 0;
+    font-size: 1em;
+    font-weight: 700;
+  }
+}

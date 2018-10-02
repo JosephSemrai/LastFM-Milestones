@@ -4,27 +4,68 @@
     <div class="content">
         <div class="fixed-top">
             <nav class="navbar navbar-expand-sm navbar-dark">
-                <div class="container">     
-                            <%- include('logo') -%>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                <div class="container">
+                    <%- include('logo') -%>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/feedback">Leave feedback</a>
+                                <a class="nav-link" href="/">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/blog">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/feedback">Feedback</a>
+                            </li>
+                            <% if (loggedIn) { %>
+                            <% if (role === "admin") { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/blog/new-post">
+                                    New Post
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/logs">
+                                    Logs
+                                </a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Logout</a>
+                            </li>
+                            <% } %>
                         </ul>
                     </div>
                 </div>
             </nav>
-            <% if (error) {%>
+            <% if (typeof error != "undefined" && error != null) {%>
             <div class="alert alert-danger">
                 <%=error%>
             </div>
-            <% } else if (success) {%>
+            <% } else if (typeof success != "undefined" && success != null) {%>
             <div class="alert alert-success">
                 <%=success%>
             </div>
+            <% } else if (typeof info != "undefined" && info != null) { %>
+            <div class="alert alert-info">
+                <%=info%>
+            </div>
+            <% }else { %>
+            <div class="alert collapse" id="custom-alert">
+
+            </div>
+            <script>
+                $.get("/api/latestPosts", (result) => {
+                    if (result.articles.length <= 0) return;
+                    result = result.articles[0];
+                    let message = `${result.title}. <a href="/blog/post/${result._id}">Read more...</a>`;
+                    $("#custom-alert").addClass(`alert-${result.level}`);
+                    $("#custom-alert").html(message);
+                    $("#custom-alert").slideDown(500);
+                })
+            </script>
             <% } %>
         </div>
