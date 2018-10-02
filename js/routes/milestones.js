@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
         step: step
       });
       options.image = results.user.image;
-      // sendLog(options);
+      sendLog(options);
     })
     .catch(err => {
       if (err instanceof MilestoneError) {
@@ -48,7 +48,7 @@ router.post("/", (req, res) => {
         req.session.error = strings.unknownError.en;
         res.redirect("/");
       }
-      // sendLog(options, err);
+      sendLog(options, err);
     });
 });
 
