@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Milestones</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/milestones.css">
+    <link rel="stylesheet" href="/css/timeline.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/1.2.0/json2html.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-img" style="background-image: url('https://lastfm-img2.akamaized.net/i/u/700s/e3b83f6943a4a5155b33d27e0276927a.jpg')">
+            <div class="container header-info center-content">
+                <div class="row">
+                    <div class="col-12 col-lg-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-auto">
+                                <img class="rounded-circle" src="https://lastfm-img2.akamaized.net/i/u/avatar170s/2cb91f6294c4e7443d928c8ecf19f4cf.png"
+                                    width="150px">
+                            </div>
+                            <div class="col-auto">
+                                <div class="username"><a href="/">Unknownurl</a></div>
+                                <span class="additional-info">Unknownurl </span>
+                                <span class="additional-info">scrobbling since 17 Feb 2013</span>
+                                <ul class="header-metadata">
+                                    <li class="header-metadata-item">
+                                        <h4 class="header-metadata-title">Scrobbles</h4>
+                                        <p class="header-metadata-display"><a href="/">1111</a></p>
+                                    </li>
+                                    <li class="header-metadata-item">
+                                        <h4 class="header-metadata-title">Average per day</h4>
+                                        <p class="header-metadata-display">95</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-flex justify-content-lg-end">
+                        <div class="col text-lg-right">
+                            <h4 class="featured-item-heading">First scrobble</h4>
+                            <a href="/" class="featured-item-name">Thunderclouds</a>
+                            <a href="/" class="featured-item-artist">Sia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div id="timeline">
+            <div class="line">
+                <section class="year">
+                    <h3>2013</h3>
+                    <section>
+                        <h4>21 Apr 2013, 12:46</h4>
+                        <ul class="milestone">
+                            <li>
+                                <div>
+                                    <h5>10,000<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/1500x1500/2cc979ccb4494f4585a293f5f7afda79.png"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div class="">
+                                                <a href="/" class="featured-item-name">Don't Let Me Fall</a>
+                                                <a href="/" class="featured-item-artist">B.o.B</a>
+                                                <a href="/" class="featured-item-artist">B.o.B Presents: The Adventures
+                                                    of Bobby Ray (Deluxe Version)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>17 Jun 2013, 15:32</h4>
+                        <ul class="milestone">
+                            <li>
+                                <div>
+                                    <h5>20,000<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/1500x1500/0f49fb367cc44bc88898e4af387ebe7e.png"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div class="">
+                                                <a href="/" class="featured-item-name">Here's to Never Growing Up</a>
+                                                <a href="/" class="featured-item-artist">Avril Lavigne</a>
+                                                <a href="/" class="featured-item-artist">Avril Lavigne</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>5 Jul 2013, 22:01</h4>
+                        <ul class="suggested">
+                            <li>
+                                <div>
+                                    <h5>Suggested milestone - 23,456<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto d-flex align-items-center">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/ar0/e31015a075dcfb729c65c9abf2ee16fe"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div class="">
+                                                <a href="/" class="featured-item-name">Livin' on a Prayer</a>
+                                                <h5 class="header-metadata-title">From the album</h5>
+                                                <a href="/" class="featured-item-name">Cross Road</a>
+                                                <h5 class="header-metadata-title">By</h5>
+                                                <a href="/" class="featured-item-artist">Bon Jovi</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="additional-info">Discover more milestone scrobbles like this with a custom step!</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>5 Aug 2013, 22:43</h4>
+                        <ul class="milestone">
+                            <li>
+                                <div>
+                                    <h5>30,000<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto d-flex align-items-center">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/1500x1500/c1aecd7e51324b02a22660fa51e98f11.png"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div class="">
+                                                <a href="/" class="featured-item-name">The Other Side</a>
+                                                <h5 class="header-metadata-title">From the album</h5>
+                                                <a href="/" class="featured-item-name">Tattoos</a>
+                                                <h5 class="header-metadata-title">By</h5>
+                                                <a href="/" class="featured-item-artist">Jason Derülo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>25 Sep 2013, 21:47</h4>
+                        <ul class="milestone">
+                            <li>
+                                <div>
+                                    <h5>40,000<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto d-flex align-items-center">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/1500x1500/d865798c763e43f7b036fe97f036a1c0.png"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div class="">
+                                                <a href="/" class="featured-item-name">Wrong in the Head</a>
+                                                <h5 class="header-metadata-title">From the album</h5>
+                                                <a href="/" class="featured-item-name">Playing in the Shadows</a>
+                                                <h5 class="header-metadata-title">By</h5>
+                                                <a href="/" class="featured-item-artist">Example</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <section class="year">
+                    <h3>2014</h3>
+                    <section>
+                        <h4>21 May 2014, 20:46</h4>
+                        <ul class="milestone">
+                            <li>
+                                <div>
+                                    <h5>50,000<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto d-flex align-items-center">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/1500x1500/d9dda0e001f34a83cabf631ae50ab306.png"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div class="">
+                                                <a href="/" class="featured-item-name">Can't Remember to Forget You
+                                                    (feat. Rihanna)</a>
+                                                <h5 class="header-metadata-title">From the album</h5>
+                                                <a href="/" class="featured-item-name">Shakira. (Deluxe Version)</a>
+                                                <h5 class="header-metadata-title">By</h5>
+                                                <a href="/" class="featured-item-artist">Shakira</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>30 Dec 2014, 15:29</h4>
+                        <ul class="milestone">
+                            <li>
+                                <div>
+                                    <h5>60,000<sup>th</sup> scrobble</h5>
+                                    <div class="row">
+                                        <div class="col-md-auto d-flex align-items-center">
+                                            <img src="https://lastfm-img2.akamaized.net/i/u/ar0/4e798c3499813bf380b7ade25816b86a"
+                                                class="rounded-circle" width="100px">
+                                        </div>
+                                        <div class="col d-flex align-items-center">
+                                            <div>
+                                                <a href="/" class="featured-item-name">We Are One (Ole Ola) [The
+                                                    Official 2014 FIFA World Cup™ Song] [feat. Jennifer Lopez & Cláudia
+                                                    Leitte]</a>
+                                                <h5 class="header-metadata-title">From the album</h5>
+                                                <a href="/" class="featured-item-name">The 2014 FIFA World Cup™
+                                                    Official Album: One Love, One Rhythm</a>
+                                                <h5 class="header-metadata-title">By</h5>
+                                                <a href="/" class="featured-item-artist">Pitbull</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+            </div>
+        </div>
+        <div id="timeline">
+            <div class="suggested-line">
+                <section class="year">
+                    <h3>2018</h3>
+                    <section>
+                        <ul class="suggested">
+                            <li>
+                                <h5>Only 182 scrobbles left until you hit 70,000!</h5>
+                                <p>We are expecting you to hit 70,000 on 22 Apr, 2018.</p>
+                                <span class="additional-info">This prediction is based on your average scrobble count per day and changes as you approach to your next milestone.</span>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

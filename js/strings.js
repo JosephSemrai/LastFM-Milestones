@@ -24,9 +24,21 @@ module.exports = {
     }
   },
   lastAPIDown: {
-    en: "Last.fm API is unreachable, please try again later!"
+    en: "Last.fm API is unreachable right now, please try again later!"
   },
   unknownError: {
     en: "Something unpredictable happened, the developer has been notified."
-  }
+  },
+  telegramAlertMessage: (name, step, isSuggested, error) => {
+    return `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${name} \n<b>Step:</b> ${step}\n<b>Options: </b>${
+      isSuggested ? "suggested milestone" : "none"
+    }<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${name}&step=${step}\n\n<b>${
+      !error ? "No errors</b>" : "Error:</b>\n" + error
+    }`;
+  },
+  signUpSuccess: { en: "You've been successfully signed up!" },
+  signUpError: { en: "There was an error signing you up!" },
+  alreadyExists: { en: field => `${field} already exists!` },
+  loginError: { en: "Either the email or password is incorrect!" },
+  loginSuccess: { en: username => `Welcome back, ${username}!` }
 };

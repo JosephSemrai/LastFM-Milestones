@@ -1,0 +1,221 @@
+.header {
+  position: relative;
+  height: 300px;
+}
+
+.header-info {
+  position: relative;
+  bottom: -125px;
+  z-index: 1;
+}
+
+.header-info .additional-info,
+.header-info .additional-info a {
+  padding: 0px !important;
+  margin-bottom: 5px;
+}
+
+.header-info .additional-info:nth-child(n + 3)::before {
+  margin-right: 0.25em;
+  margin-left: 0.25em;
+  content: "·";
+  font-weight: 400;
+}
+
+.block-bg .additional-info {
+  padding: 5px !important;
+}
+
+.header-metadata-title {
+  font-size: 12px;
+  line-height: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0;
+  font-weight: 400;
+  color: #999;
+}
+
+#timeline .header-metadata-title {
+  padding-top: 2px;
+}
+
+ul,
+li {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.header .header-metadata-item {
+  float: left;
+  padding-right: 15px;
+}
+
+.featured-item-heading {
+  font-size: 12px;
+  line-height: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0;
+  font-weight: 400;
+  color: #999;
+}
+
+.featured-item-name {
+  font-weight: 700;
+  margin-top: 18px;
+  margin-bottom: -6px;
+  color: white !important;
+  font-size: 18px;
+  line-height: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
+  word-wrap: break-word;
+  display: block;
+}
+
+.featured-item-artist {
+  color: white !important;
+  font-weight: 700;
+  font-size: 18px;
+  word-wrap: break-word;
+  line-height: 24px;
+  margin-top: 0;
+  color: inherit;
+  display: block;
+  font-weight: 400;
+}
+
+.header .header-metadata-display {
+  font-weight: 700;
+  margin-top: 18px;
+  margin-bottom: -6px;
+  font-size: 18px;
+  line-height: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header .header-metadata {
+  margin-top: 0;
+  margin-left: 0;
+  padding-top: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.header .header-metadata-display {
+  font-weight: 700;
+  margin-top: 18px;
+  margin-bottom: -6px;
+  font-size: 18px;
+  line-height: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.username a {
+  font-size: 30px;
+  font-weight: 600;
+  color: white!important;
+}
+
+.username a:hover {
+  text-decoration: underline !important;
+}
+
+.header-metadata-display a,
+.header-metadata-display a:hover,
+#timeline .featured-item-name,
+#timeline .featured-item-artist {
+  color: black !important;
+}
+
+@media (max-width: 500px) {
+  .username a {
+    font-size: 20px;
+    color: black !important;
+  }
+
+  .milestone-info {
+    font-size: 13px !important;
+  }
+
+  .milestone-number {
+    font-size: 13pt !important;
+  }
+
+  .featured-item-heading {
+    padding-top: 0px !important;
+  }
+}
+
+#timeline .additional-info {
+  padding: 0px !important;
+}
+
+.user-image {
+  background-image: url("https://lastfm-img2.akamaized.net/i/u/300x/818148bf682d429dc215c1705eb27b98.png");
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+}
+
+.label.milestone {
+  margin-right: 10px;
+  margin-top: -4px;
+}
+
+@media (max-width: 1200px) {
+  .header{
+    height: 440px;
+  }
+  .username a {
+    color: black!important;
+  }
+}
+
+@media (max-width: 992px) {
+  .header {
+    height: 380px;
+  }
+  .featured-item-name, .featured-item-artist {
+    color:black!important;
+  }  
+  .username a {
+    color: white!important;
+  }
+  .header .col .featured-item-heading {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  section.year ul .row .col.d-flex.align-items-center {
+    padding-right: 0!important; 
+    padding-left: 0!important; 
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 513px) {
+  .header {
+    height: 500px;
+  }
+
+  .header .col .featured-item-heading {
+    margin-top: 0px;
+  }
+  .username a {
+    color: black!important;
+  }
+}
+
+.username {
+  min-width: 250px;
+}
+
+.milestone-info {
+  padding-bottom: 10px !important;
+}

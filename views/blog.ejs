@@ -1,0 +1,100 @@
+<%- include('header') -%>
+<link rel="stylesheet" href="/css/blog.css">
+<div class="container">
+    <% if (typeof result != "undefined") { %>
+    <% if (result.articles.length > 0) { %>
+    <% for (article of result.articles) { %>
+    <div class="card my-4">
+        <div class="card-header">
+            <h5>
+                <a href="/blog/post/<%= article._id %>">
+                    <%= article.title %>
+                </a>
+            </h5>
+            <div class="card-subtitle">
+                <span class="additional-info">
+                    <%= moment(article.date).format("DD MMM YYYY, HH:mm") %>
+                </span>
+                <span class="additional-info">
+                    by
+                    <a href="blog/author/<%= article.user.username %>">
+                        <%= article.user.username %>
+                    </a>
+                </span>
+                <% if (role === "admin") { %>
+                <span class="additional-info">
+                    <a href="/blog/post/<%= article._id %>/edit %>">
+                        Edit
+                    </a>
+                </span>
+                <span class="additional-info">
+                    <a href="/blog/post/<%= article._id %>/remove?next=<%=(typeof reqPath == " undefined") ? "/" :
+                        reqPath %>">
+                        Remove
+                    </a>
+                </span>
+                <span class="additional-info">
+                    <a href="/blog/post/<%= article._id %>/pin?next=<%=(typeof reqPath == " undefined") ? "/" : reqPath
+                        %>&action=<%= !(article.showOnMain == "true" || article.showOnMain == "on") %>">
+                        <%= article.showOnMain == "true" || article.showOnMain == "on" ? "Unpin" : "Pin" %>
+                    </a>
+                </span>
+                <% } %>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="article-body">
+                <% if (article.text) { %>
+                <% if (article.text.length > 300 && (typeof showFull === "undefined")) { %>
+                <%- `${article.text.substring(0, 300)}...` %>
+                <a href="/blog/post/<%= article._id %>">
+                    read more
+                </a>
+                <% } else { %>
+                <%- article.text %>
+                <% } %>
+                <% } else {%>
+                <b>This blog entry has no text body.</b>
+                <% } %>
+            </div>
+        </div>
+        <% if (article.tags) {%>
+        <div class="card-footer text-muted">
+            <ul class="tags-list tags-list--global">
+                <% for (let tag of article.tags) { %>
+                <li class="tag">
+                    <a href="/blog/tag/<%= tag %>">
+                        <%= tag %>
+                    </a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+        <% } %>
+    </div>
+    <% } %>
+    <% } else { %>
+    <h4 class="mt-4">No articles found</h4>
+    <% } %>
+    <% if (totalPages > 1) { %>
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-prev">
+                <a class="" href="/blog?offset=<%= offset - limit < 0 ? 0 : offset - limit %>">Previous</a>
+            </li>
+            <% for (let i = 0; i < totalPages; i++) { %>
+            <li class="page-item <%= result.page == i + 1 ? `page-current` : ``%>">
+                <a class="" href="/blog?offset=<%= i * limit %>">
+                    <%= i + 1 %>
+                </a>
+            </li>
+            <% } %>
+            <li class="page-next">
+                <a href="/blog?offset=<%= (offset + limit) >= result.totalPages * limit ? offset : offset + limit %>">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <% } %>
+    <% } %>
+</div>
+<%- include('footer')-%>

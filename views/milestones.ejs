@@ -1,105 +1,273 @@
 <%- include('header') -%>
+
 <body>
-<style>
-body {
-    background-color:black; 
-}
-</style>
-<header class="header">
-    <div class="header-img">
-        <div class="container">
-        <div class="center-text">
-            <div class="row">
-                <div class="col-md-auto col-6">
-                    <img class="rounded-circle" src="<%= user.image %>" width="150px"/>
-                </div>
-                <div class="col-md-auto col-6 user-info">
-                    <div class="align-middle">
-                        <div class="username">
-                            <a class="block-bg" href="<%=user.url%>"><%=user.name%></a>
-                            <% const regTime = moment(user.registered.unixtime * 1000);
-                            const dur = moment(moment() - regTime) %>
-                            <p class="block-bg additional-info">since <%=regTime.format("D MMM Y")%></p>
-                        </div>
-                        <div class="user-info">
-                            <div class="milestone-number"><%=numeral(user.playcount).format("0,0")%></div>
-                                <div>
-                                <p class="block-bg additional-info" style="margin-bottom: 0">scrobbles</p>
-                                </div>
+    <link rel="stylesheet" href="/css/milestones.css">
+    <link rel="stylesheet" href="/css/timeline.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <header class="header">
+        <div class="header-img" style="background-image: url('<%= milestones[0].image %>')">
+            <div class="container header-info center-content">
+                <div class="row">
+                    <div class="col-12 col-lg-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-auto">
+                                <img class="rounded-circle user-image" src="<%= user.image %>">
                             </div>
+                            <div class="col-auto">
+                                <% const average = user.playcount / ((moment().diff(moment(user.registered.unixtime * 1000), "days") + 2)); %>
+                                <div class="username"><a href="/milestones?user=<%= user.name %>&step=<%= step %>">
+                                        <%= user.name %></a></div>
+                                <span class="additional-info">
+                                    <%= user.realname ? user.realname : user.name %> </span>
+                                <span class="additional-info">scrobbling since
+                                    <%= moment(user.registered["#text"] * 1000).format("DD MMMM YYYY") %></span>
+                                <ul class="header-metadata">
+                                    <li class="header-metadata-item">
+                                        <h4 class="header-metadata-title">Scrobbles</h4>
+                                        <p class="header-metadata-display"><a href="https://last.fm/user/<%= user.name %>/library">
+                                                <%= numeral(user.playcount).format() %></a></p>
+                                    </li>
+                                    <li class="header-metadata-item">
+                                        <h4 class="header-metadata-title">Average per day</h4>
+                                        <p class="header-metadata-display">
+                                            <%= numeral(average).format() %>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 d-flex justify-content-lg-end text-lg-right">
+                        <div class="col">
+                            <h4 class="featured-item-heading">First scrobble</h4>
+                            <a href="/song/<%= milestones[0].name %>&user=<%= user.name %>" class="featured-item-name">
+                                <%= milestones[0].name %></a>
+                            <a href="/artist/<%= milestones[0].artist %>&user=<%= user.name %>" class="featured-item-artist">
+                                <%= milestones[0].artist %></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </header>
-    <div class="row no-gutters justify-content-md-left">
-    <% const suggestions = {
-        100: [111, 222, 333, 444, 555, 666, 777, 888, 999, 123, 456, 789],
-        1000: [1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 2345, 3456, 4567, 5678, 6789],
-        10000: [11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 12345, 23456, 34567, 45678, 56789],
-        500: [555, 666, 777, 888, 999, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 2345, 3456, 4567, 5678, 6789],
-        5000: [6666, 7777, 8888, 9999, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 12345, 23456, 34567, 45678, 56789]
-    }
-        const selection = suggestions[session.step] ? suggestions[session.step.toString()][Math.floor(Math.random() * Math.floor(suggestions[session.step].length))] : undefined;
-        for (let i = 0; i < milestones.length; i++) {
-        let milestone = milestones[i]; %>
-        <% if (milestone) { %>
-            <div class="col-xl-3 col-lg-3 col-sm-6 col-md-4 col-6">
-                <a href="<%= milestone.url %>">
-                    <div class="milestone-cover">
-                        <img src="<%= milestone.image %>">
-                    </div>
-                </a>
-                <div class="milestone-info">
-                    <div class="milestone-name">
-                        <a href="<%= milestone.url %>"><%= milestone.name%></a>
-                    </div>
-                    <div class="milestone-artist">
-                        <a href="https://last.fm/artist/<%= milestone.artist %>"><%= milestone.artist %></a>
+    <% const milestoneHistory = {}; 
+    const milestoneSpeed = {} %>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div id="timeline">
+                    <div class="line">
+                        <% for (let i = 1; i < milestones.length; i++) {
+                                    let milestone = milestones[i];
+                                    if (milestone) { 
+                                        if (!milestone.suggested) { 
+                                            const key = moment(milestone.date.uts * 1000).year()
+                                            typeof milestoneHistory[key] === 'undefined' ? milestoneHistory[key] = 1 : milestoneHistory[key]++;
+                                            const notSuggestedMilestone = milestones[i - 1].suggested ? milestones[i - 2].date.uts * 1000 : milestones[i - 1].date.uts * 1000;
+                                            milestoneSpeed[milestone.scrobbleNumb] = moment(milestone.date.uts * 1000).diff(moment(i > 1 ? notSuggestedMilestone : user.registered["#text"] * 1000), "days");
+                                        }
+                                        if (i == 1 || moment(milestones[i - 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
+                        <section class="year">
+                            <h3>
+                                <%= moment(milestone.date.uts * 1000).year() %>
+                            </h3>
+                            <% } %>
+                            <section>
+                                <h4>
+                                    <%= moment(milestone.date.uts * 1000).format("DD MMM YYYY, HH:mm") %>; it took
+                                    <%= moment(milestone.date.uts * 1000).diff(moment(i > 1 ? milestones[i - 1].date.uts * 1000 : user.registered["#text"] * 1000), "days") %>
+                                    days since
+                                    <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "registration" %>.</h4>
+                                <ul class="<%= milestone.suggested ? `suggested` : `milestone` %>">
+                                    <li>
+                                        <div>
+                                            <div>
+                                                <h5>Reached
+                                                    <%= numeral(milestone.scrobbleNumb).format() %> scrobble!
+                                                </h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-auto d-flex align-items-center">
+                                                    <a href="/song/<%= milestone.name %>">
+                                                        <img src="<%= milestone.image %>" class="rounded-circle" width="125px">
+                                                    </a>
+                                                </div>
+                                                <div class="col d-flex align-items-center">
+                                                    <div>
+                                                        <div class="milestone-info">
+                                                            <h5 class="header-metadata-title">Song Title</h5>
+                                                            <a href="<%= milestone.url %>" class="featured-item-name">
+                                                                <%= milestone.name %></a>
+                                                        </div>
+                                                        <% if (milestone.album) { %>
+                                                        <div class="milestone-info">
+                                                            <h5 class="header-metadata-title">From the album</h5>
+                                                            <a href="http://last.fm/music/<%= milestone.artist %>/<%= milestone.album %>" class="featured-item-artist">
+                                                                <%= milestone.album %></a>
+                                                        </div>
+                                                        <% } %>
+                                                        <div class="milestone-info">
+                                                            <h5 class="header-metadata-title">By</h5>
+                                                            <a href="http://last.fm/music/<%= milestone.artist %>/" class="featured-item-name">
+                                                                <%= milestone.artist %></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <% if (milestone.suggested) { %>
+                                            <span class="additional-info">Discover more milestone scrobbles
+                                                like this with a custom step!</span>
+                                            <% } %>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </section>
+                            <% if (i == milestones.length - 1 || moment(milestones[i + 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
+                        </section>
+                        <% } %>
+                        <% } %>
+                        <% } %>
                     </div>
                 </div>
-                <div class="milestone-meta">
-                    <div class="block-bg milestone-number">
-                        #<%= milestone.scrobbleNumb === 0 ? 1 : numeral(milestone.scrobbleNumb).format("0,0") %>
-                    </div>
-                    <div class="block-bg additional-info">
-                        <%= moment(milestone.date.uts * 1000).format("D MMM Y, H:mm") %>
+                <% const daysToHit = (milestones[milestones.length - 1].scrobbleNumb + step - user.playcount) / average;
+                        const predictedDate = moment().add(Math.ceil(daysToHit), "days")  %>
+                <div id="timeline">
+                    <div class="suggested-line">
+                        <section class="year">
+                            <h3>
+                                <%= predictedDate.year() === moment(milestones[milestones.length - 1].date.uts * 1000).year() ? "" : predictedDate.year() %>
+                            </h3>
+                            <section>
+                                <ul class="suggested">
+                                    <li>
+                                        <h5>Only
+                                            <%= numeral(milestones[milestones.length - 1].scrobbleNumb + step - user.playcount).format() %>
+                                            scrobbles left until you hit
+                                            <%= numeral(milestones[milestones.length - 1].scrobbleNumb + step).format() %>!</h5>
+                                        <p>We are expecting you to hit
+                                            <%= numeral(milestones[milestones.length - 1].scrobbleNumb + step).format() %>
+                                            on
+                                            <%= predictedDate.format("DD MMM YYYY") %>%>.</p>
+                                        <span class="additional-info">This prediction is based on your average scrobble
+                                            count per day and changes as you approach to your next milestone.</span>
+                                    </li>
+                                </ul>
+                            </section>
+                        </section>
                     </div>
                 </div>
             </div>
-            <% if (!ref && session.step * (i + 1) < selection && session.step * (i + 2) > selection && selection < user.playcount){ %>
-                <div class="d-flex align-items-center col-xl-3 col-lg-3 col-sm-6 col-md-4 col-6">
-                    <div class="suggestion-link" id="suggestion-link">
-                        <div class="milestone-suggestion">
-                            <p class="thin">Discover your <span class="milestone-number normal">#<%= numeral(selection).format("0,0") %></span> scrobble!</p>
-                        </div>
-                    </div>
-                    <form method="POST" action="/milestones" class="d-none">
-                        <input name="step" type="number" value="<%=parseInt(selection)%>">
-                        <input name="ref" type="checkbox" checked>
-                        <input name="user" type="text" value="<%=user.name%>">
-                        <input name="showFirst" type="checkbox">
-                        <input type="submit" id="showSuggestions">
-                    </form>
+            <div class="col-lg-4 col-12">
+                <h5>Milestone Scrobbles History</h5>
+                <div class="card-body">
+                    <canvas id="chart" height="500px" width="500px">
+
+                    </canvas>
                 </div>
-            <% } %>
-        <% } %>
-    <% } %>
-    </div>
+                <% if (milestones.length <= 20) { %>
+                <h5>Speed of reaching the milestone scrobble</h5>
+                <div class="card-body">
+                    <canvas id="speed-chart" height="500px" width="500px">
+
+                    </canvas>
+                </div>
+                <% } %>
+            </div>
+        </div>
     </div>
 
     <script>
-        $("#suggestion-link").on("click", () => {
-            $("#showSuggestions").click();
+        const milestoneHistory = <%- JSON.stringify(milestoneHistory) %>;
+        const ctx = $("#chart");
+        const myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: Object.keys(milestoneHistory),
+                datasets: [{
+                    data: Object.values(milestoneHistory),
+                    backgroundColor: "rgba(185, 0, 0, 0.2)"
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            borderDash: [8, 2],
+                            drawBorder: false,
+                            color: "rgba(128, 128, 128, 0.25)",
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            padding: 10,
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Milestone scrobbles'
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            drawBorder: false,
+                            display: false,
+                        },
+                        ticks: {
+                            beginAtZero: false,
+                            padding: 10
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                }
+            }
         });
-
-        $(".copy-link").on("click", () => {
-            $("#link").select();
-            document.execCommand("copy");
-            $(".copy-link").text("A link has been copied to your clipboard!");
-        });
+        <% if (milestones.length <= 20) { %>
+        const milestoneSpeed = <%- JSON.stringify(milestoneSpeed) %>;
+            const speedChartCtx = $("#speed-chart");
+            const speedChart = new Chart(speedChartCtx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: Object.keys(milestoneSpeed),
+                    datasets: [{
+                        data: Object.values(milestoneSpeed),
+                        backgroundColor: "rgba(185, 0, 0, 0.2)"
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                borderDash: [8, 2],
+                                drawBorder: false,
+                                color: "rgba(128, 128, 128, 0.25)",
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                padding: 10,
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Days took to reach since last milestone'
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                display: false,
+                            },
+                            ticks: {
+                                beginAtZero: false,
+                                padding: 10,
+                            }
+                        }],
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        <% } %>
     </script>
-<%- include('footer') -%>
+    <%- include('footer') -%>

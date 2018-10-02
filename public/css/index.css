@@ -9,6 +9,10 @@ body {
   min-height: 100vh;
 }
 
+.fixed-top {
+  position: sticky !important;
+}
+
 .logo {
   height: 50px;
 }
@@ -41,7 +45,6 @@ body {
 
 .fixed-top {
   background-color: #000;
-  max-height: 75px;
   min-height: 75px;
 }
 
@@ -90,15 +93,31 @@ body {
 }
 
 .header-img {
-  min-height: 200px;
-  background-position: top;
+  height: 200px;
   background-image: url("/images/header.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .header-img::before {
+  height: 200px;
   position: absolute;
   content: "";
+  background-size: cover;
   background-image: url("/images/header_gradient.png");
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-position: top;
+}
+
+.header-img::after {
+  height: 200px;
+  position: absolute;
+  content: "";
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
   top: 0;
   right: 0;
   bottom: 0;
@@ -110,6 +129,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
+  z-index: 1;
 }
 
 .block-bg {
@@ -122,6 +142,7 @@ body {
 }
 
 .header {
+  width: 100%;
   position: relative;
 }
 
@@ -166,10 +187,6 @@ body {
   box-shadow: 0 0 0 rgba(255, 255, 255, 0);
   transition: border-color 0.15s ease-out, color 0.25s ease-out,
     background-color 0.15s ease-out, box-shadow 0.15s ease-out;
-}
-
-.suggestion-link {
-  cursor: pointer;
 }
 
 .toggle-group {
@@ -233,10 +250,29 @@ textarea:focus {
 @media (max-width: 800px) {
   .toggle-group input + label {
     padding: 0.75rem 0.25rem;
+    flex: 0 0 15%;
+  }
+}
+
+@media (max-width: 450px) {
+  .toggle-group input + label {
+    padding: 0.75rem 0.25rem;
     flex: 0 0 16.5%;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .toggle-group {
+    flex-flow: column;
+  }
+  .toggle-group input + label:first-of-type {
+    border-radius: 6px 6px 0px 0px;
+    border: solid 1px #ddd;
+  }
+  .toggle-group input + label:last-of-type {
+    border-radius: 0px 0px 6px 6px;
+    border: solid 1px #ddd;
   }
 }
 
@@ -272,35 +308,6 @@ textarea:focus {
 .content {
   height: 100%;
   position: relative;
-  padding-top: 75px;
-}
-
-.username a {
-  font-size: 30px;
-  color: white;
-  font-weight: 600;
-}
-
-.username a:hover {
-  color: white;
-}
-
-.username {
-  width: fit-content;
-}
-
-@media (max-width: 500px) {
-  .username a {
-    font-size: 20px;
-  }
-
-  .milestone-info {
-    font-size: 13px !important;
-  }
-
-  .milestone-number {
-    font-size: 13pt !important;
-  }
 }
 
 .user-info {
@@ -316,7 +323,7 @@ textarea:focus {
 }
 
 .form-group .additional-info {
-  padding: 0!important;
+  padding: 0 !important;
 }
 
 .milestone-cover {
@@ -341,25 +348,6 @@ textarea:focus {
   position: absolute;
   width: 100%;
   height: 100%;
-}
-
-.milestone-info {
-  position: absolute;
-  bottom: 0;
-  color: white;
-  padding: 20px !important;
-}
-
-.milestone-info a,
-.user-info a,
-.first-scrobble a {
-  color: white;
-}
-
-.milestone-info a:hover,
-.user-info a:hover,
-.first-scrobble a:hover {
-  color: white;
 }
 
 .milestone-meta {
@@ -447,14 +435,19 @@ textarea:focus {
   color: white !important;
 }
 
-.alert-info a {
+.alert a {
   color: white;
   text-decoration: underline;
   font-weight: 700;
 }
 
-.alert-info a:hover {
-  color: white;
+.alert a:hover {
+  color: white !important;
+}
+
+.alert-warning {
+  background-color: #fd7500 !important;
+  color: white !important;
 }
 
 .nav-link {
@@ -475,58 +468,13 @@ form {
   }
 }
 
-.milestone-suggestion {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  display: block;
-  font-size: 28pt;
-  color: white;
-}
-
-@media (max-width: 530px) {
-  .milestone-suggestion {
-    font-size: 13pt;
-  }
-}
-
-.d-flex a:hover {
-  color: white !important;
-  text-decoration: none !important;
-}
-
-.thin {
-  font-weight: 300;
-}
-
-.thick {
-  font-weight: 700;
-}
-
-.normal {
-  font-weight: 500;
-}
-
-.milestone-suggestion p::after {
-  font-size: 150pt;
-  color: rgba(255, 255, 255, 0.25);
-  position: absolute;
-  line-height: unset;
-  bottom: -20px;
-  content: "»";
-  right: 20px;
-  margin: 0;
-  padding: 0;
-}
-
 .recentRequests {
   bottom: 0;
-  position: absolute;
+  position: sticky;
   width: 100%;
   background: #000;
   color: white;
-  padding: 20px;
-  padding-bottom: 55px;
+  padding-bottom: 30px;
   display: none;
 }
 
@@ -581,15 +529,15 @@ form {
 }
 
 @media (max-height: 750px) {
+  .fixed-top {
+    position: relative !important;
+  }
+
   .footer {
     position: relative;
   }
   .recentRequests {
     position: relative;
-    padding-bottom: 0px !important;
-  }
-  .fixed-top {
-    position: absolute !important;
   }
 }
 
@@ -637,4 +585,100 @@ input[type="checkbox"]:checked + label:before {
   border-left-color: transparent;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.pagination {
+  position: relative;
+  text-align: center;
+}
+
+.page-current a {
+  font-weight: 700;
+  color: #b90000 !important;
+  -webkit-box-shadow: inset 0 -2px #b90000;
+  box-shadow: inset 0 -2px #b90000;
+  padding: 6px;
+}
+
+.page-next {
+  right: 0;
+}
+
+.page-prev {
+  left: 0;
+}
+
+.page-prev,
+.page-next {
+  position: absolute;
+  top: 0;
+}
+
+.page-next a {
+  position: relative;
+  text-align: right;
+  padding-right: 15px;
+}
+
+.page-next a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: url("/images/arrow_small_right_222_12.1f09514d3fe5.png");
+  width: 12px;
+  height: 12px;
+  top: 50%;
+  margin-top: -6px;
+}
+
+.page-prev a {
+  position: relative;
+  text-align: left;
+  padding-left: 15px;
+}
+
+.page-prev a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: auto;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: url(/images/arrow_small_left_222_12.23248f764438.png);
+  width: 12px;
+  height: 12px;
+  top: 50%;
+  margin-top: -6px;
+}
+
+.page-item {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.pagination a {
+  color: black;
+}
+
+.pagination a:hover {
+  text-decoration: none !important;
+}
+
+.label {
+  display: inline-block;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 5px;
+  background-color: #b90000;
+  color: #fff;
+  font-size: 10px;
+  line-height: 21px;
 }

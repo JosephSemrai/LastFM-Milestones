@@ -1,0 +1,104 @@
+<%- include('header') -%>
+<body>
+<style>
+body {
+    background-color:black; 
+}
+</style>
+<header class="header">
+    <div class="header-img">
+        <div class="container">
+        <div class="center-text">
+            <div class="row">
+                <div class="col-md-auto col-6">
+                    <img class="rounded-circle" src="<%= user.image %>" width="150px"/>
+                </div>
+                <div class="col-md-auto col-6 user-info">
+                    <div class="align-middle">
+                        <div class="username">
+                            <a class="block-bg" href="<%=user.url%>"><%=user.name%></a>
+                            <% const regTime = moment(user.registered.unixtime * 1000);
+                            const dur = moment(moment() - regTime) %>
+                            <p class="block-bg additional-info">since <%=regTime.format("D MMM Y")%></p>
+                        </div>
+                        <div class="user-info">
+                            <div class="milestone-number"><%=numeral(user.playcount).format("0,0")%></div>
+                                <div>
+                                <p class="block-bg additional-info" style="margin-bottom: 0">scrobbles</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </header>
+    <div class="row no-gutters justify-content-md-left">
+    <% const suggestions = {
+        100: [111, 222, 333, 444, 555, 666, 777, 888, 999, 123, 456, 789],
+        1000: [1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 2345, 3456, 4567, 5678, 6789],
+        10000: [11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 12345, 23456, 34567, 45678, 56789],
+        500: [555, 666, 777, 888, 999, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 2345, 3456, 4567, 5678, 6789],
+        5000: [6666, 7777, 8888, 9999, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 12345, 23456, 34567, 45678, 56789]
+    }
+        const selection = suggestions[session.step] ? suggestions[session.step.toString()][Math.floor(Math.random() * Math.floor(suggestions[session.step].length))] : undefined;
+        for (let i = 0; i < milestones.length; i++) {
+        let milestone = milestones[i]; %>
+        <% if (milestone) { %>
+            <div class="col-xl-3 col-lg-3 col-sm-6 col-md-4 col-6">
+                <a href="<%= milestone.url %>">
+                    <div class="milestone-cover">
+                        <img src="<%= milestone.image %>">
+                    </div>
+                </a>
+                <div class="milestone-info">
+                    <div class="milestone-name">
+                        <a href="<%= milestone.url %>"><%= milestone.name%></a>
+                    </div>
+                    <div class="milestone-artist">
+                        <a href="https://last.fm/artist/<%= milestone.artist %>"><%= milestone.artist %></a>
+                    </div>
+                </div>
+                <div class="milestone-meta">
+                    <div class="block-bg milestone-number">
+                        #<%= milestone.scrobbleNumb === 0 ? 1 : numeral(milestone.scrobbleNumb).format("0,0") %>
+                    </div>
+                    <div class="block-bg additional-info">
+                        <%= moment(milestone.date.uts * 1000).format("D MMM Y, H:mm") %>
+                    </div>
+                </div>
+            </div>
+            <% if (!ref && session.step * (i + 1) < selection && session.step * (i + 2) > selection && selection < user.playcount){ %>
+                <div class="d-flex align-items-center col-xl-3 col-lg-3 col-sm-6 col-md-4 col-6">
+                    <div class="suggestion-link" id="suggestion-link">
+                        <div class="milestone-suggestion">
+                            <p class="thin">Discover your <span class="milestone-number normal">#<%= numeral(selection).format("0,0") %></span> scrobble!</p>
+                        </div>
+                    </div>
+                    <form method="POST" action="/milestones" class="d-none">
+                        <input name="step" type="number" value="<%=parseInt(selection)%>">
+                        <input name="ref" type="checkbox" checked>
+                        <input name="user" type="text" value="<%=user.name%>">
+                        <input name="showFirst" type="checkbox">
+                        <input type="submit" id="showSuggestions">
+                    </form>
+                </div>
+            <% } %>
+        <% } %>
+    <% } %>
+    </div>
+
+    <script>
+        $("#suggestion-link").on("click", () => {
+            $("#showSuggestions").click();
+        });
+
+        $(".copy-link").on("click", () => {
+            $("#link").select();
+            document.execCommand("copy");
+            $(".copy-link").text("A link has been copied to your clipboard!");
+        });
+    </script>
+<%- include('footer') -%>

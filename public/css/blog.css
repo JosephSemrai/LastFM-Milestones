@@ -1,0 +1,39 @@
+.additional-info,
+.additional-info a {
+  padding: 0px !important;
+  margin-bottom: 5px;
+}
+
+.tag:nth-child(n + 2)::before,
+.additional-info:nth-child(n + 2)::before {
+  margin-right: 0.25em;
+  margin-left: 0.25em;
+  content: "·";
+  font-weight: 400;
+}
+
+.tags-list {
+  font-weight: 700;
+}
+
+.tag {
+  float: left;
+  font-size: 14px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.card-header a {
+  color: black;
+}
+
+.card-subtitle a {
+  color: #005399 !important;
+}
+
+a {
+  color: #005399;
+}
