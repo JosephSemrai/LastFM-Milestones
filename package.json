@@ -24,5 +24,8 @@
     "sitemap": "^1.13.0",
     "svg.js": "^2.6.5"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "9.3.0"
+  }
 }
