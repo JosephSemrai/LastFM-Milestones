@@ -5,41 +5,35 @@ class Mongo {
   constructor() {
     this.databaseName = "lastmilestones";
     this.databaseUrl = process.env.MONGODB;
-  }
-
-  async connect() {
-    const connection = await client.connect(
+    this.connection = client.connect(
       this.databaseUrl,
       {
         useNewUrlParser: true
       }
     );
-    return connection;
   }
 
   async createUserAccount(username, email, password, role) {
     const users = "users";
     const hashedPass = await bcrypt.hash(password, 10);
-    const connection = await this.connect();
+    const connection = await this.connection;
     const collection = connection.db(this.databaseName).collection(users);
     const result = await collection.insertOne({
-        username: username,
-        email: email,
-        password: hashedPass,
-        role: role
-    })
-    connection.close();
+      username: username,
+      email: email,
+      password: hashedPass,
+      role: role
+    });
     return result;
   }
 
   async getUser(username) {
     const users = "users";
-    const connection = await this.connect();
+    const connection = await this.connection;
     const collection = connection.db(this.databaseName).collection(users);
     const user = await collection.findOne({
-      "username": username
+      username: username
     });
-    connection.close();
     return user;
   }
 }

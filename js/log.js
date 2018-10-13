@@ -7,11 +7,11 @@ const Mongo = require("./models/mongo");
 class MongoDbLog extends Mongo {
   constructor() {
     super();
-    this.collectionName = process.env.DEBUG ? "requests-demo" : "requests";
+    this.collectionName = process.env.DEBUG ? "requests" : "requests";
   }
 
   async writeToLog(options) {
-    const connection = await this.connect();
+    const connection = await this.connection;
     const collection = connection
       .db(this.databaseName)
       .collection(this.collectionName);
@@ -19,7 +19,7 @@ class MongoDbLog extends Mongo {
   }
 
   async getFromLog(project, projection, numberLimit, offset) {
-    const connection = await this.connect();
+    const connection = await this.connection;
     const collection = connection
       .db(this.databaseName)
       .collection(this.collectionName);
