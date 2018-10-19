@@ -60,7 +60,7 @@
                 <p>...</p>
             </li>
             <li class="page-item <%= logs.page == logs.totalPages ? `page-current` : ``%>">
-                <a class="" href="/admin/logs?offset=<%= (logs.totalPages) * limit %>"><%= logs.totalPages %></a>
+                <a class="" href="/admin/logs?offset=<%= (logs.totalPages - 1) * limit %>"><%= logs.totalPages %></a>
             </li>
             <% } %>
             <li class="page-next">
