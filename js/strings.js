@@ -27,7 +27,7 @@ module.exports = {
     en: "Last.fm API is unreachable right now, please try again later!"
   },
   unknownError: {
-    en: "Something unpredictable happened, the developer has been notified."
+    en: "Unpredicted error; developer has been notified. Please try again!"
   },
   telegramAlertMessage: (name, step, isSuggested, error) => {
     return `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${name} \n<b>Step:</b> ${step}\n<b>Options: </b>${

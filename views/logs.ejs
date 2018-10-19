@@ -41,9 +41,26 @@
             <li class="page-prev">
                 <a class="" href="/admin/logs?offset=<%= offset - limit < 0 ? 0 : offset - limit %>">Previous</a>
             </li>
-            <% for (let i = 0; i < totalPages; i++) { %>
+            <% if ((logs.page - 3) >= 1) {%>
+            <li class="page-item <%= logs.page == 1 ? `page-current` : ``%>">
+                <a class="" href="/admin/logs?offset=0">1</a>
+            </li>
+            <li class="page-item">
+                <p>...</p>
+            </li>
+            <% } %>
+            <% const endLimit = logs.page + 2 > logs.totalPages ? logs.totalPages : logs.page + 2 %>
+            <% for (let i = (logs.page - 3) < 0 ? 0 : logs.page - 3; i < endLimit; i++) { %>
             <li class="page-item <%= logs.page == i + 1 ? `page-current` : ``%>">
                 <a class="" href="/admin/logs?offset=<%= i * limit %>"><%= i + 1 %></a>
+            </li>
+            <% } %>
+            <% if ((logs.page + 2) < logs.totalPages) { %>
+            <li class="page-item">
+                <p>...</p>
+            </li>
+            <li class="page-item <%= logs.page == logs.totalPages ? `page-current` : ``%>">
+                <a class="" href="/admin/logs?offset=<%= (logs.totalPages) * limit %>"><%= logs.totalPages %></a>
             </li>
             <% } %>
             <li class="page-next">
