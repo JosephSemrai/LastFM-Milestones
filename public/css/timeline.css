@@ -34,21 +34,17 @@
   position: relative;
 }
 #timeline section.year section {
-  margin-top: -1.3em;
   padding-bottom: 0px;
 }
 #timeline section.year section {
   position: relative;
   padding-bottom: 1.5em;
-  margin-bottom: 3em;
 }
 #timeline section.year section h4 {
-  position: absolute;
-  bottom: -15px;
-  font-size: 0.9em;
+  font-size: 0.8em!important;
   font-weight: 400;
   margin: 0;
-  padding: 0 0 0 83px;
+  padding-bottom: 10px;
   color: #999;
 }
 @media (min-width: 62em) {
@@ -112,7 +108,7 @@
   width: 4px;
   position: absolute;
   top: -50px;
-  bottom: 30px;
+  bottom: 0px;
   left: 59px;
   z-index: 1;
   background: linear-gradient(#b90000, gray 10%, white 80%);

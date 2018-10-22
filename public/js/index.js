@@ -40,6 +40,7 @@ $.get("/api/recentRequests", data => {
         : "https://lastfm-img2.akamaized.net/i/u/300x/818148bf682d429dc215c1705eb27b98"
     );
     img.addClass("slide-image");
+    img.attr("data-type", "user");
     let steps = $("<div>");
     steps.addClass("additional-info");
     steps.text(`Step: ${entry.step ? entry.step : 10000}`);

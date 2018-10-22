@@ -1,8 +1,8 @@
-const client = require("mongodb").MongoClient;
 const URL = require("url").URL;
 const request = require("request-promise");
 const strings = require("./strings");
 const Mongo = require("./models/mongo");
+const ObjectID = require("mongodb").ObjectID;
 
 class MongoDbLog extends Mongo {
   constructor() {
@@ -37,6 +37,15 @@ class MongoDbLog extends Mongo {
       page: Math.ceil(offset / numberLimit) + 1,
       log: log
     };
+  }
+
+  async removeLogEntry(id) {
+    const connection = await this.connection;
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
+    const promise = collection.deleteOne({"_id": new ObjectID(id)});
+    return promise;
   }
 }
 

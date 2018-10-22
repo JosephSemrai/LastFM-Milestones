@@ -11,7 +11,7 @@
                     <div class="col-12 col-lg-6 d-flex align-items-center">
                         <div class="row">
                             <div class="col-auto">
-                                <img class="rounded-circle user-image" src="<%= user.image %>">
+                                <img class="rounded-circle user-image" src="<%= user.image %>" data-type="user">
                             </div>
                             <div class="col-auto">
                                 <% const average = user.playcount / ((moment().diff(moment(user.registered.unixtime * 1000), "days") + 2)); %>
@@ -73,11 +73,6 @@
                             </h3>
                             <% } %>
                             <section>
-                                <h4>
-                                    <%= moment(milestone.date.uts * 1000).format("DD MMM YYYY, HH:mm") %>; it took
-                                    <%= moment(milestone.date.uts * 1000).diff(moment(i > 1 ? milestones[i - 1].date.uts * 1000 : user.registered["#text"] * 1000), "days") %>
-                                    days since
-                                    <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "registration" %>.</h4>
                                 <ul class="<%= milestone.suggested ? `suggested` : `milestone` %>">
                                     <li>
                                         <div>
@@ -85,11 +80,16 @@
                                                 <h5>Reached
                                                     <%= numeral(milestone.scrobbleNumb).format() %> scrobble!
                                                 </h5>
+                                                <h4>
+                                                <%= moment(milestone.date.uts * 1000).format("DD MMM YYYY, HH:mm") %>; it took
+                                                <%= moment(milestone.date.uts * 1000).diff(moment(i > 1 ? milestones[i - 1].date.uts * 1000 : user.registered["#text"] * 1000), "days") %>
+                                                days since
+                                                <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "registration" %>.</h4>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-auto d-flex align-items-center">
                                                     <a href="/song/<%= milestone.name %>">
-                                                        <img src="<%= milestone.image %>" class="rounded-circle" width="125px">
+                                                        <img src="<%= milestone.image %>" data-type="album" class="rounded-circle" width="125px">
                                                     </a>
                                                 </div>
                                                 <div class="col d-flex align-items-center">
@@ -145,11 +145,12 @@
                                             <%= numeral(milestones[milestones.length - 1].scrobbleNumb + step - user.playcount).format() %>
                                             scrobbles left until you hit
                                             <%= numeral(milestones[milestones.length - 1].scrobbleNumb + step).format() %>!</h5>
-                                        <p>We are expecting you to hit
+                                        <h4>We are expecting you to hit
                                             <%= numeral(milestones[milestones.length - 1].scrobbleNumb + step).format() %>
                                             on
-                                            <%= predictedDate.format("DD MMM YYYY") %>%>.</p>
-                                        <span class="additional-info">This prediction is based on your average scrobble count per day and changes as you approach your next milestone.</span>
+                                            <%= predictedDate.format("DD MMM YYYY") %>%>.
+                                            <br><br><div class="additional-info">This prediction is based on your average scrobble count per day and changes as you approach your next milestone.</div>    
+                                        </h4>
                                     </li>
                                 </ul>
                             </section>

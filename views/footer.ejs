@@ -1,21 +1,21 @@
 </div>
 <div class="footer">
-<div class="recentRequests">
-    <div class="container">
-        <h4>Searching Now
-            <div class="additional-info">Latest searches within 24 hours</div>
-        </h4>
-        <div class="slidesContainer d-flex justify-content-center">
+    <div class="recentRequests">
+        <div class="container">
+            <h4>Searching Now
+                <div class="additional-info">Latest searches within 24 hours</div>
+            </h4>
+            <div class="slidesContainer d-flex justify-content-center">
 
+            </div>
         </div>
     </div>
-</div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="js/index.js"></script>
     <div class="container">
         <div class="row footer-content">
             <div class="col-8">
-                Created in 2018. 
+                Created in 2018.
                 Data provided by <a href="http://last.fm/">Last.fm</a>.
             </div>
             <div class="col-4">
@@ -25,12 +25,21 @@
     </div>
 </div>
 </div>
-    <script>
-        $(window).bind('beforeunload', () => {
-            $("#static-logo").hide();
-            $("#animated-logo").show();
-        })
-    </script>
+<script>
+    $(window).bind('beforeunload', () => {
+        $("#static-logo").hide();
+        $("#animated-logo").show();
+    });
+
+    document.addEventListener('error', (e) => {
+        const target = $(e.target);
+        const type = target.data("type");
+        if (type == "user") 
+            target.attr("src", "https://lastfm-img2.akamaized.net/i/u/300x/818148bf682d429dc215c1705eb27b98");
+        else if (type == "album")
+            target.attr("src", "https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb.png");
+    }, true)
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </body>

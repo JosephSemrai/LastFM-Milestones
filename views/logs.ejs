@@ -9,6 +9,7 @@
                 <th scope="col" class="text-center" data-order='desc' data-field="options" data-sortable="true">Options</th>
                 <th scope="col" class="text-center" data-order='desc' data-field="error" data-sortable="true">Error</th>
                 <th scope="col" class="text-center" data-order='desc' data-field="date" data-sortable="true">Date</th>
+                <th scope="col" class="text-center" data-order='desc' data-field="operations" data-sortable="true">Operations</th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +19,7 @@
                     <b><%= offset + index + 1 %></b>
                 </td>
                 <td>
-                    <img class="rounded-circle" width="50px" style="margin:10px" src="<%= log.image %>"><%= log.name %>
+                    <img data-type="user" class="rounded-circle" width="50px" style="margin:10px" src="<%= log.image %>"><%= log.name %>
                 </td>
                 <td>
                     <%= log.step %>
@@ -31,6 +32,9 @@
                 </td>
                 <td>
                     <%= moment(log.date).format(`D MMMM YYYY, HH:mm:ss`) %>
+                </td>
+                <td>
+                    <a href="/admin/logs/<%=log._id %>/remove">Remove</a>
                 </td>
             </tr>
             <% }) %>
