@@ -1,7 +1,7 @@
 $("#custom-step").on("click change paste keyup", function() {
   let value = $(this).val();
-  if (value.length >= 6) {
-    value = value.substr(0, 6);
+  if (value.length >= 7) {
+    value = value.substr(0, 7);
   }
   $("#custom").val(value);
   $(this).val(value);

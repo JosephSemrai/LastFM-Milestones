@@ -398,7 +398,6 @@ textarea:focus {
   text-align: center;
   color: black !important;
   min-width: 50px;
-  max-width: 50px;
   height: 100%;
   box-shadow: none;
   background: none;

@@ -90,8 +90,6 @@ class LastFM {
     const milestones = await this.getUserInfo(name).then(async user => {
       if (Math.round(user.playcount / step) > 400)
         throw new MilestoneError(strings.longProcess.en);
-      if (Math.floor(user.playcount / step) <= 0)
-        throw new MilestoneError(strings.stepBiggerThanPlaycount.en(step));
       const tryRequest = await this.getSongAtPosition(
         user.playcount,
         name,

@@ -7,7 +7,7 @@ const ObjectID = require("mongodb").ObjectID;
 class MongoDbLog extends Mongo {
   constructor() {
     super();
-    this.collectionName = process.env.DEBUG ? "requests" : "requests";
+    this.collectionName = process.env.DEBUG ? "requests-demo" : "requests";
   }
 
   async writeToLog(options) {

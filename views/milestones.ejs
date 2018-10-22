@@ -57,6 +57,20 @@
             <div class="col-lg-8 col-12">
                 <div id="timeline">
                     <div class="line">
+                        <% if (milestones.length <= 1) { %>
+                        <section class="year">                            
+                            <section>
+                                <ul class="milestone">
+                                    <li>
+                                        <div>
+                                            <div>
+                                                <h5>Whoops, you have less than <%= numeral(step).format() %> (a selected step) scrobbles right now, but we have a prediction for you!</h5>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </section>
+                        <% } %>
                         <% for (let i = 1; i < milestones.length; i++) {
                                     let milestone = milestones[i];
                                     if (milestone) { 
@@ -84,7 +98,7 @@
                                                 <%= moment(milestone.date.uts * 1000).format("DD MMM YYYY, HH:mm") %>; it took
                                                 <%= moment(milestone.date.uts * 1000).diff(moment(i > 1 ? milestones[i - 1].date.uts * 1000 : user.registered["#text"] * 1000), "days") %>
                                                 days since
-                                                <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "registration" %>.</h4>
+                                                <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "signup" %>.</h4>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-auto d-flex align-items-center">
@@ -158,6 +172,7 @@
                     </div>
                 </div>
             </div>
+            <% if (milestones.length > 1) { %>
             <div class="col-lg-4 col-12">
                 <h5>Milestone Scrobbles History</h5>
                 <div class="card-body">
@@ -174,6 +189,7 @@
                 </div>
                 <% } %>
             </div>
+            <% } %>
         </div>
     </div>
 
