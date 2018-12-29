@@ -219,3 +219,23 @@ li {
 .milestone-info {
   padding-bottom: 10px !important;
 }
+
+.btn-twitter {
+  background-color: #38A1F3;
+  border-color: #38A1F3;
+  color: #ECECEC;
+}
+
+.btn-facebook {
+  background-color: #3B5998;
+  color: #ECECEC;
+}
+
+.btn-facebook:hover, .btn-twitter:hover {
+  color: white;
+}
+
+.hide {
+  position:absolute;
+  left:-9999px
+}

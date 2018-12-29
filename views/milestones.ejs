@@ -180,20 +180,39 @@
 
                     </canvas>
                 </div>
-                <% if (milestones.length <= 20) { %>
-                <h5>Speed of reaching the milestone scrobble</h5>
+                <h5>Milestone Reaching Speed</h5>
                 <div class="card-body">
-                    <canvas id="speed-chart" height="500px" width="500px">
+                    <canvas id="speed-chart" height="<%=(milestones.length - 1) * 65%>px" width="500px">
 
                     </canvas>
                 </div>
-                <% } %>
+                <h5>Share Your Milestones</h5>
+                <% const shareLink = `http://lastmilestones.tk/milestones?user=${user.name}&step=${step}`;
+                const shareText = `Just reached ${milestones[milestones.length - 1].scrobbleNumb} scrobble! More of my last.fm milestones here: ` %>
+                <div class="pb-2 pt-2 text-center">                    
+                    <a class="btn btn-twitter" target="_blank" href="https://twitter.com/intent/tweet?url=<%= shareLink %>&text=<%= shareText %>"><i class="fab fa-twitter"></i> Tweet</a>
+                    <a class="btn btn-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= shareLink %>"><i class="fab fa-facebook"></i> Share</a>
+                    <button class="btn btn-light" id="copyLink"><i class="fas fa-link"></i> Copy link</button>
+                </div>
             </div>
             <% } %>
         </div>
     </div>
 
     <script>
+        $("#copyLink").click(() => {
+            const el = document.createElement('textarea');
+            el.value = "<%=`http://lastmilestones.tk/milestones?user=${user.name}&step=${step}`%>";
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            $("#copyLink").html(`<i class="fas fa-link"></i> Copied!`);
+        })
+
         const milestoneHistory = <%- JSON.stringify(milestoneHistory) %>;
         const ctx = $("#chart");
         const myChart = new Chart(ctx, {
@@ -239,7 +258,6 @@
                 }
             }
         });
-        <% if (milestones.length <= 20) { %>
         const milestoneSpeed = <%- JSON.stringify(milestoneSpeed) %>;
             const speedChartCtx = $("#speed-chart");
             const speedChart = new Chart(speedChartCtx, {
@@ -265,7 +283,7 @@
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: 'Days took to reach since last milestone'
+                                labelString: 'Days between milestones'
                             }
                         }],
                         yAxes: [{
@@ -284,6 +302,5 @@
                     }
                 }
             });
-        <% } %>
     </script>
     <%- include('footer') -%>
