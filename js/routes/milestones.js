@@ -56,10 +56,16 @@ router.get("/", (req, res) => {
   const name = req.query.user;
   const step = req.query.step;
   if (name) {
-    res.render("milestones_get", {
-      name: name,
-      step: step
-    });
+    LastFM.getUserInfo(name).then((results) => {
+      res.render("milestones_get", {
+        name: name,
+        step: step, 
+        user: results,
+        title: req.body.ref
+        ? strings.suggestedMilestoneTitle.en(name)
+        : strings.milestoneTitle.en(name),
+      });
+    })
   } else res.redirect("/");
 });
 
