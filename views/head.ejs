@@ -17,11 +17,12 @@
       content="http://lastmilestones.tk"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="LastMilestones: Your Last.fm milestone scrobbles" />
+    <meta property="og:title" content='<%= (typeof title != "undefined") ? `${title} | ` : "" %>LastMilestones:
+    Your Last.fm milestone scrobbles' />
     <meta property="og:description" content="Best tool for discovering last.fm milestone scrobbles!" />
     <meta
       property="og:image"
-      content="https://i.postimg.cc/g2xTzM3n/article-logo.jpg"
+      content='<%= (typeof user != "undefined") ? user.image : "https://i.postimg.cc/g2xTzM3n/article-logo.jpg" %>'
     />
     <title>
       <%= (typeof title != "undefined") ? `${title} | ` : "" %>LastMilestones:
