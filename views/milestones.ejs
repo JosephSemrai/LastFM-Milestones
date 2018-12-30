@@ -176,7 +176,7 @@
             <div class="col-lg-4 col-12">
                 <h5>Milestone Scrobbles History</h5>
                 <div class="card-body">
-                    <canvas id="chart" height="500px" width="500px">
+                    <canvas id="chart" height="<%=(Object.keys(milestoneHistory).length + 1) * 65%>px" width="500px">
 
                     </canvas>
                 </div>
@@ -188,7 +188,7 @@
                 </div>
                 <h5>Share Your Milestones</h5>
                 <% const shareLink = `http://lastmilestones.tk/milestones?user=${user.name}%26step=${step}`;
-                const shareText = `Just reached ${milestones[milestones.length - 1].scrobbleNumb} scrobble! More of my last.fm milestones here: ` %>
+                const shareText = `Just reached ${milestones[milestones.length - 1].scrobbleNumb} scrobble! More of my @lastfm milestones here: ` %>
                 <div class="pb-4 pt-2 text-center">                    
                     <a class="btn btn-twitter" target="_blank" href="https://twitter.com/intent/tweet?url=<%= shareLink %>&text=<%= shareText %>"><i class="fab fa-twitter"></i> Tweet</a>
                     <a class="btn btn-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= shareLink %>"><i class="fab fa-facebook"></i> Share</a>

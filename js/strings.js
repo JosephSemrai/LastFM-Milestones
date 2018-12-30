@@ -40,5 +40,8 @@ module.exports = {
   signUpError: { en: "There was an error signing you up!" },
   alreadyExists: { en: field => `${field} already exists!` },
   loginError: { en: "Either the email or password is incorrect!" },
-  loginSuccess: { en: username => `Welcome back, ${username}!` }
+  loginSuccess: { en: username => `Welcome back, ${username}!` },
+  millionError: {
+    en: "Last.fm API can't return the results for your account, because your number of scrobbles is more than 1,000,000!"
+  }
 };
