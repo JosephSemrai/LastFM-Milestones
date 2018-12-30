@@ -12,22 +12,31 @@
       content="Best tool for discovering last.fm milestone scrobbles!"
     />
     <meta name="theme-color" content="#000" />
-    <meta
-      property="og:url"
-      content="http://lastmilestones.tk"
-    />
+    <% const titleText = `${(typeof title != "undefined") ? `${title} |` : ""}
+    LastMilestones: Your Last.fm milestone scrobbles`; const cover = (typeof
+    user != "undefined") ? user.image : "/images/cover.jpg" %>
+    <meta property="og:url" content="http://lastmilestones.tk" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content='<%= (typeof title != "undefined") ? `${title} | ` : "" %>LastMilestones:
-    Your Last.fm milestone scrobbles' />
-    <meta property="og:description" content="Best tool for discovering last.fm milestone scrobbles!" />
+    <meta property="og:title" content="<%= titleText %>" />
     <meta
-      property="og:image"
-      content='<%= (typeof user != "undefined") ? user.image : "https://i.postimg.cc/g2xTzM3n/article-logo.jpg" %>'
+      property="og:description"
+      content="Best tool for discovering last.fm milestone scrobbles!"
     />
-    <title>
-      <%= (typeof title != "undefined") ? `${title} | ` : "" %>LastMilestones:
-      Your Last.fm milestone scrobbles
-    </title>
+    <meta property="og:image" content="<%= cover %>" />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="<%= title %>"
+    />
+    <meta
+      property="twitter:description"
+      content="Best tool for discovering last.fm milestone scrobbles!"
+    />
+    <meta
+      property="twitter:image"
+      content="<%= cover %>>"
+    />
+    <title><%= titleText %></title>
     <link rel="alternate" hreflang="en" href="http://lastmilestones.tk" />
     <meta name="msvalidate.01" content="4870E4711CD70E33E61119A578AC236A" />
     <link rel="stylesheet" href="/css/index.css" />
