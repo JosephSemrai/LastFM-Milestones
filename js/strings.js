@@ -30,9 +30,9 @@ module.exports = {
     en: "Unpredicted error; developer has been notified. Please try again!"
   },
   telegramAlertMessage: (name, step, isSuggested, error) => {
-    return `🎉 <b>New Milestone Search</b> \n\n<b>Username:</b> ${name} \n<b>Step:</b> ${step}\n<b>Options: </b>${
+    return `${error ? "❗❗❗❗❗<b>There was an error while performing a request!</b>" : "🎉 <b>New Milestone Search</b>"} \n\n<b>Username:</b> ${name} \n<b>Step:</b> ${step}\n<b>Options: </b>${
       isSuggested ? "suggested milestone" : "none"
-    }<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${name}&step=${step}\n\n<b>${
+    }${error ? "" : `<b>\nPermalink:</b> http://lastmilestones.tk/milestones?user=${name}&step=${step}`}\n\n<b>${
       !error ? "No errors</b>" : "Error:</b>\n" + error
     }`;
   },

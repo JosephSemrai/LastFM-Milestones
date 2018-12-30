@@ -56,14 +56,15 @@ class Telegram {
     this.botUrl = new URL(`${this.entryPoint}bot${this.apiKey}`);
   }
 
-  async sendMessage(text, chatId, parseMode = "html") {
+  async sendMessage(text, chatId, notification, parseMode = "html") {
     const url = `${this.botUrl}/sendMessage`;
     const sendMessage = await request({
       url: url,
       form: {
         chat_id: chatId,
         text: text,
-        parse_mode: parseMode
+        parse_mode: parseMode,
+        disable_notification: notification
       },
       method: "POST"
     });
@@ -78,7 +79,7 @@ class Telegram {
       options.error
     );
     const chatId = process.env.NEW_SEARCH_CHAT_ID;
-    this.sendMessage(message, chatId).then(body => {
+    this.sendMessage(message, chatId, !options.error).then(body => {
       body = JSON.parse(body);
       console.log(body.ok ? "Log posted" : "Failed to post the log!");
     });
