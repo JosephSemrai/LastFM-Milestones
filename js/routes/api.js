@@ -23,9 +23,14 @@ Router.get("/recentRequests", async (req, res) => {
   res.send(results);
 });
 
+Router.get("/rr", async (req, res) => {
+  const result = await Mongo.getFromLogAggregate();
+  res.send(result);
+})
+
 Router.get("/milestones/:user", (req, res) => {
   const user = req.params.user.trim();
-  const step = isNaN(parseInt(req.query.step)) ? 1000 : req.query.step;
+  const step = isNaN(parseInt(req.query.step)) ? 10000 : req.query.step;
   const showFirst = req.query.showFirst;
   const ref = req.query.ref;
 

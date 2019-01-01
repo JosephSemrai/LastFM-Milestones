@@ -18,32 +18,93 @@ $("input[type='radio']")
     $("#custom-step").prop("required", false);
   });
 
-$.get("/api/recentRequests", data => {
-  if (data.log.length <= 1) return;
-  for (let entry of data.log) {
+// $.get("/api/recentRequests", data => {
+//   if (data.log.length <= 1) return;
+//   for (let entry of data.log) {
+//     let div = $("<div>");
+//     div.addClass("slide");
+//     let info = $("<div>");
+//     let link = $("<a>");
+//     link.attr(
+//       "href",
+//       `/milestones?user=${entry.name}&step=${entry.step ? entry.step : 10000}`
+//     );
+//     link.text(`${entry.name}`);
+//     link.addClass("slide_name");
+//     info.append(link);
+//     let img = $("<img>");
+//     img.attr(
+//       "src",
+//       entry.image
+//         ? entry.image
+//         : "https://lastfm-img2.akamaized.net/i/u/300x/818148bf682d429dc215c1705eb27b98"
+//     );
+//     img.addClass("slide-image");
+//     img.attr("data-type", "user");
+//     let steps = $("<div>");
+//     steps.addClass("additional-info");
+//     steps.text(`Step: ${entry.step ? entry.step : 10000}`);
+//     info.append(steps);
+//     info.addClass("center-text");
+//     div.append(img);
+//     div.append(info);
+//     $(".slidesContainer").append(div);
+//   }
+//   $(".recentRequests").slideDown(500);
+//   $(".slidesContainer").slick({
+//     slidesToScroll: 1,
+//     draggable: false,
+//     autoplay: true,
+//     mobileFirst: true,
+//     autoplaySpeed: 2000,
+//     responsive: [
+//       {
+//         breakpoint: 1024,
+//         settings: {
+//           slidesToShow: data.log.length <= 5 ? data.log.length - 1 : 5
+//         }
+//       },
+//       {
+//         breakpoint: 600,
+//         settings: {
+//           slidesToShow: data.log.length <= 3 ? data.log.length - 1 : 3
+//         }
+//       },
+//       {
+//         breakpoint: 300,
+//         settings: {
+//           slidesToShow: 1
+//         }
+//       }
+//     ]
+//   });
+// });
+
+$.get("/api/rr", data => {
+  if (data.length <= 1) return;
+  for (let entry of data) {
     let div = $("<div>");
     div.addClass("slide");
     let info = $("<div>");
     let link = $("<a>");
-    link.attr(
-      "href",
-      `/milestones?user=${entry.name}&step=${entry.step ? entry.step : 10000}`
-    );
-    link.text(`${entry.name}`);
+    link.attr("href", `/milestones?user=${entry._id.name}`);
+    link.text(`${entry._id.name}`);
     link.addClass("slide_name");
     info.append(link);
     let img = $("<img>");
     img.attr(
       "src",
-      entry.image
-        ? entry.image
+      entry._id.image
+        ? entry._id.image
         : "https://lastfm-img2.akamaized.net/i/u/300x/818148bf682d429dc215c1705eb27b98"
     );
     img.addClass("slide-image");
     img.attr("data-type", "user");
     let steps = $("<div>");
     steps.addClass("additional-info");
-    steps.text(`Step: ${entry.step ? entry.step : 10000}`);
+    steps.text(
+      `Steps: ${entry.steps}`
+    );
     info.append(steps);
     info.addClass("center-text");
     div.append(img);
@@ -61,13 +122,13 @@ $.get("/api/recentRequests", data => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: data.log.length <= 5 ? data.log.length - 1 : 5
+          slidesToShow: data.length <= 5 ? data.length - 1 : 5
         }
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: data.log.length <= 3 ? data.log.length - 1 : 3
+          slidesToShow: data.length <= 3 ? data.length - 1 : 3
         }
       },
       {

@@ -1,5 +1,6 @@
 const URL = require("url").URL;
 const request = require("request-promise");
+const moment = require("moment");
 const strings = require("./strings");
 const Mongo = require("./models/mongo");
 const ObjectID = require("mongodb").ObjectID;
@@ -39,12 +40,47 @@ class MongoDbLog extends Mongo {
     };
   }
 
+  async getFromLogAggregate() {
+    const connection = await this.connection;
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: moment()
+              .subtract(24, "hours")
+              .toDate()
+          },
+          success: 1
+        }
+      },
+      {
+        $limit: 20
+      },
+      {
+        $group: {
+          _id: {
+            name: "$name",
+            image: "$image"
+          },
+          steps: {
+            $addToSet: "$step"
+          }
+        }
+      }
+    ]);
+    const log = await cursor.toArray();
+    return log;
+  }
+
   async removeLogEntry(id) {
     const connection = await this.connection;
     const collection = connection
       .db(this.databaseName)
       .collection(this.collectionName);
-    const promise = collection.deleteOne({"_id": new ObjectID(id)});
+    const promise = collection.deleteOne({ _id: new ObjectID(id) });
     return promise;
   }
 }
