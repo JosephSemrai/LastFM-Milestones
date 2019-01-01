@@ -6,9 +6,7 @@ const passport = require("passport");
 const adminAuthMiddleware = require("./js/routes/auth").adminAuthMiddleware;
 
 const app = express();
-moment().tz("Europe/Kiev").format();
-
-console.log(moment());
+moment.tz.guess();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

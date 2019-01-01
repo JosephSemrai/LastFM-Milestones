@@ -57,9 +57,6 @@ class MongoDbLog extends Mongo {
         }
       },
       {
-        $limit: 20
-      },
-      {
         $group: {
           _id: {
             name: "$name",
@@ -69,7 +66,10 @@ class MongoDbLog extends Mongo {
             $addToSet: "$step"
           }
         }
-      }
+      },
+      {
+        $limit: 20
+      },
     ]);
     const log = await cursor.toArray();
     return log;
