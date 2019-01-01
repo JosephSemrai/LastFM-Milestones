@@ -8,6 +8,8 @@ const adminAuthMiddleware = require("./js/routes/auth").adminAuthMiddleware;
 const app = express();
 moment().tz("Europe/Kiev").format();
 
+console.log(moment());
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
