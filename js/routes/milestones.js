@@ -1,6 +1,5 @@
 const express = require("express");
 const moment = require("moment");
-const numeral = require("numeral");
 const LastFM = require("../models/lastfm");
 const strings = require("../strings");
 const MilestoneError = require("../errors/MilestoneError");
