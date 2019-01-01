@@ -64,12 +64,20 @@ class MongoDbLog extends Mongo {
           },
           steps: {
             $addToSet: "$step"
+          },
+          lastRequest: {
+            $last: "$date"
           }
         }
       },
       {
-        $limit: 20
+        $sort: {
+          lastRequest: -1
+        }
       },
+      {
+        $limit: 20
+      }
     ]);
     const log = await cursor.toArray();
     return log;
