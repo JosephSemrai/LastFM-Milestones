@@ -108,7 +108,6 @@ $.get("/api/rr", data => {
       }).join("; ")}`
     );
     info.append(steps);
-    info.addClass("center-text");
     div.append(img);
     div.append(info);
     $(".slidesContainer").append(div);
