@@ -1,4 +1,5 @@
 const request = require("request-promise");
+const numeral = require("numeral");
 const strings = require("../strings");
 const { URL, URLSearchParams } = require("url");
 const MilestoneError = require("../errors/MilestoneError");
@@ -100,9 +101,9 @@ class LastFM {
       const warning =
         user.playcount == tryResp["@attr"].totalPages
           ? null
-          : `Attention! You have ${user.playcount -
+          : `Attention! You have ${numeral(user.playcount -
               tryResp["@attr"]
-                .totalPages} scrobbles without date, so they are not included in the list below!`;
+                .totalPages).format()} scrobbles without date, so they are not included in the list below!`;
       user.playcount =
         user.playcount === tryResp["@attr"].totalPages
           ? user.playcount

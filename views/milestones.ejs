@@ -95,10 +95,14 @@
                                                     <%= numeral(milestone.scrobbleNumb).format() %> scrobble!
                                                 </h5>
                                                 <h4>
+                                                    <% if (milestone.suggested) { %>
+                                                        <span class="additional-info">Discover more milestone scrobbles like this with a custom step!</span><br><br>
+                                                    <% } %>
                                                 <%= moment(milestone.date.uts * 1000).format("DD MMM YYYY, HH:mm") %>; it took
                                                 <%= moment(milestone.date.uts * 1000).diff(moment(i > 1 ? milestones[i - 1].date.uts * 1000 : user.registered["#text"] * 1000), "days") %>
                                                 days since
-                                                <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "signup" %>.</h4>
+                                                <%= i > 1 ? `you hit ${numeral(milestones[i - 1].scrobbleNumb).format()}` : "signup" %>.
+                                            </h4>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-auto d-flex align-items-center">
@@ -128,11 +132,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <% if (milestone.suggested) { %>
-                                            <span class="additional-info">Discover more milestone scrobbles
-                                                like this with a custom step!</span>
-                                            <% } %>
                                         </div>
                                     </li>
                                 </ul>
@@ -236,10 +235,6 @@
                             beginAtZero: true,
                             padding: 10,
                             callback: function (value) { if (Number.isInteger(value)) { return value; } },
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Milestone scrobbles'
                         }
                     }],
                     yAxes: [{
@@ -252,6 +247,20 @@
                             padding: 10
                         }
                     }],
+                },
+                tooltips: {
+                    custom: function(tooltip) {
+                        if (!tooltip) return;
+                        tooltip.displayColors = false;
+                    },
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return `${tooltipItem.xLabel} ${tooltipItem.xLabel == 1 ? "milestone" : "milestones"}`;
+                        },
+                        title: function(tooltipItem, data) {
+                            return;
+                        }
+                    }
                 },
                 legend: {
                     display: false
@@ -280,10 +289,6 @@
                             ticks: {
                                 beginAtZero: true,
                                 padding: 10,
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Days between milestones'
                             }
                         }],
                         yAxes: [{
@@ -294,11 +299,30 @@
                             ticks: {
                                 beginAtZero: false,
                                 padding: 10,
+                                callback: (value, index, values) => {
+                                    return `${numeral(value).format("0,000")}`;
+                                }
                             }
                         }],
                     },
                     legend: {
                         display: false
+                    },
+                    tooltips: {
+                        custom: function(tooltip) {
+                            if (!tooltip) return;
+                            tooltip.displayColors = false;
+                        },
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                console.log(data);
+                                console.log(JSON.stringify(tooltipItem))
+                                return `${tooltipItem.xLabel} ${tooltipItem.xLabel == 1 ? "day" : "days"} since ${tooltipItem.index == 0 ? "signup" : data.labels[tooltipItem.index - 1]}`;
+                            },
+                            title: function(tooltipItem, data) {
+                                return;
+                            }
+                        }
                     }
                 }
             });

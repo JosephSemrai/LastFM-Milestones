@@ -103,7 +103,9 @@ $.get("/api/rr", data => {
     let steps = $("<div>");
     steps.addClass("additional-info");
     steps.text(
-      `Steps: ${entry.steps}`
+      `Steps: ${entry.steps.sort((a,b) => a-b).map(value => {
+        return numeral(value).format("0,0");
+      }).join("; ")}`
     );
     info.append(steps);
     info.addClass("center-text");
