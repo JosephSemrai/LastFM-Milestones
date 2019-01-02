@@ -3,13 +3,12 @@
     <table class="table table-sm" data-toggle="table">
         <thead>
             <tr>
-                <th scope="col" class="text-center" data-order='desc' data-field="#" data-sortable="true">#</th>
-                <th scope="col" class="text-center" data-order='desc' data-field="name" data-sortable="true">Name</th>
-                <th scope="col" class="text-center" data-order='desc' data-field="step" data-sortable="true">Step</th>
-                <th scope="col" class="text-center" data-order='desc' data-field="options" data-sortable="true">Options</th>
-                <th scope="col" class="text-center" data-order='desc' data-field="error" data-sortable="true">Error</th>
-                <th scope="col" class="text-center" data-order='desc' data-field="date" data-sortable="true">Date</th>
-                <th scope="col" class="text-center" data-order='desc' data-field="operations" data-sortable="true">Operations</th>
+                <th scope="col" data-order='desc' data-field="#" data-sortable="true">#</th>
+                <th scope="col" data-order='desc' data-field="name" data-sortable="true">Name</th>
+                <th scope="col" data-order='desc' data-field="step" data-sortable="true">Step</th>
+                <th scope="col" data-order='desc' data-field="error" data-sortable="true">Error</th>
+                <th scope="col" data-order='desc' data-field="date" data-sortable="true">Date</th>
+                <th scope="col" data-order='desc' data-field="operations" data-sortable="true">Operations</th>
             </tr>
         </thead>
         <tbody>
@@ -19,21 +18,27 @@
                     <b><%= offset + index + 1 %></b>
                 </td>
                 <td>
-                    <img data-type="user" class="rounded-circle" width="50px" style="margin:10px" src="<%= log.image %>"><%= log.name %>
+                <div class="row">
+                <div class="col-auto">
+                    <img data-type="user" class="rounded-circle" width="50px" style="margin:10px" src="<%= log.image %>">
+                </div>
+                <div class="col-auto">
+                    <a href="/milestones/user=<%= log.name %>&step=<%=log.step%>"><%= log.name %></a>
+                    <br>
+                    <a class="additional-info" href="https://last.fm/user/<%= log.name %>">Last.fm Profile</a>
+                </div>
+                </div>
                 </td>
-                <td>
-                    <%= log.step %>
-                </td>
-                <td>
-                    <%= log.isSuggested ? `Suggested` : log.showFirst ? `Show first` : ""%>
+                <td class="text-center">
+                    <%= numeral(log.step).format() %>
                 </td>
                 <td>
                     <%= log.error %>
                 </td>
-                <td>
+                <td class="text-center">
                     <%= moment(log.date).format(`D MMMM YYYY, HH:mm:ss`) %>
                 </td>
-                <td>
+                <td class="text-center">
                     <a href="/admin/logs/<%=log._id %>/remove">Remove</a>
                 </td>
             </tr>

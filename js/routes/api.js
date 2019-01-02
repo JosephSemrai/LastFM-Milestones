@@ -3,6 +3,7 @@ const moment = require("moment");
 const LastFM = require("../models/lastfm");
 const Blog = new (require("../models/blog"))();
 const Mongo = require("../log").Mongo;
+const adminMiddleware = require("./auth").adminAuthMiddleware;
 
 const Router = express.Router();
 
@@ -25,6 +26,11 @@ Router.get("/recentRequests", async (req, res) => {
 
 Router.get("/rr", async (req, res) => {
   const result = await Mongo.getFromLogAggregate();
+  res.send(result);
+})
+
+Router.get("/activityDays", adminMiddleware(), async (req, res) => {
+  const result = await Mongo.daysStats();
   res.send(result);
 })
 

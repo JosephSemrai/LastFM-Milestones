@@ -8,7 +8,7 @@ const ObjectID = require("mongodb").ObjectID;
 class MongoDbLog extends Mongo {
   constructor() {
     super();
-    this.collectionName = process.env.DEBUG ? "requests-demo" : "requests";
+    this.collectionName = process.env.DEBUG ? "requests" : "requests";
   }
 
   async writeToLog(options) {
@@ -59,7 +59,9 @@ class MongoDbLog extends Mongo {
       {
         $group: {
           _id: {
-            name: "$name",
+            name: {
+              $toLower: "$name"
+            },
             image: "$image"
           },
           steps: {
@@ -81,6 +83,40 @@ class MongoDbLog extends Mongo {
     ]);
     const log = await cursor.toArray();
     return log;
+  }
+
+  async daysStats() {
+    const connection = await this.connection;
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
+    const cursor = collection.aggregate([
+      {
+        $group: {
+          _id: {
+            dayOfWeek: {
+              $isoDayOfWeek: "$date"
+            }
+          },
+          users: {
+            $addToSet: "$name"
+          },
+          steps: {
+            $addToSet: "$step"
+          },
+          reqCount: {
+            $sum: 1
+          }
+        }
+      },
+      {
+        $sort: {
+          "reqCount": -1
+        }
+      }
+    ]);
+    const result = await cursor.toArray();
+    return result;
   }
 
   async removeLogEntry(id) {
