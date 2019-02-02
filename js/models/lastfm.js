@@ -32,26 +32,34 @@ class LastFM {
     url.searchParams.append("page", position);
     const body = await request({
       url: url
-    }).then(body => {
-      if (!parse) return body;
-      body = JSON.parse(body).recenttracks;
-      const track = body.track.length > 1 ? body.track[1] : body.track[0];
-      if (track.artist.image)
-        track.artist.image = track.artist.image[3]["#text"];
-      track.artist = track.artist["#text"];
-      track.date.text = track.date["#text"];
-      delete track.date["#text"];
-      track.album = track.album["#text"];
-      track.image = track.image[3]["#text"]
-        ? track.image[3]["#text"]
-        : "https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb.png";
-      const attr = body["@attr"];
-      if (attr.page === attr.total)
-        track.image = track.image.replace(/300/g, "1500");
-      track.scrobbleNumb = attr.totalPages - attr.page;
-      track.suggested = suggested;
-      return track;
-    });
+    })
+      .then(body => {
+        if (!parse) return body;
+        body = JSON.parse(body).recenttracks;
+        const track = body.track.length > 1 ? body.track[1] : body.track[0];
+        if (track.artist.image)
+          track.artist.image = track.artist.image[3]["#text"];
+        track.artist = track.artist["#text"];
+        track.date.text = track.date["#text"];
+        delete track.date["#text"];
+        track.album = track.album["#text"];
+        track.image = track.image[3]["#text"]
+          ? track.image[3]["#text"]
+          : "https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb.png";
+        const attr = body["@attr"];
+        if (attr.page === attr.total)
+          track.image = track.image.replace(/300/g, "1500");
+        track.scrobbleNumb = attr.totalPages - attr.page;
+        track.suggested = suggested;
+        return track;
+      })
+      .catch(err => {
+        err = JSON.parse(err.error);
+        if (err.error && err.error === 17)
+          throw new MilestoneError(
+            `Your scrobbles are private; to see your milestones, please, make them public. In order to do that, visit your last.fm profile settings and untick "Hide recent listening information" on "Privacy" tab.`
+          );
+      });
     return body;
   }
 
@@ -89,7 +97,8 @@ class LastFM {
     name = name.trim();
     if (step < 100) throw new MilestoneError(strings.stepErr.en);
     const milestones = await this.getUserInfo(name).then(async user => {
-      if (user.playcount >= 1000000) throw new MilestoneError(strings.millionError.en);
+      if (user.playcount >= 1000000)
+        throw new MilestoneError(strings.millionError.en);
       if (Math.round(user.playcount / step) > 400)
         throw new MilestoneError(strings.longProcess.en);
       const tryRequest = await this.getSongAtPosition(
@@ -97,13 +106,14 @@ class LastFM {
         name,
         user.playcount
       );
-      const tryResp = JSON.parse(tryRequest).recenttracks;
+      let tryResp = JSON.parse(tryRequest);
+      tryResp = tryResp.recenttracks;
       const warning =
         user.playcount == tryResp["@attr"].totalPages
           ? null
-          : `Attention! You have ${numeral(user.playcount -
-              tryResp["@attr"]
-                .totalPages).format()} scrobbles without date, so they are not included in the list below!`;
+          : `Attention! You have ${numeral(
+              user.playcount - tryResp["@attr"].totalPages
+            ).format()} scrobbles without date, so they are not included in the list below!`;
       user.playcount =
         user.playcount === tryResp["@attr"].totalPages
           ? user.playcount

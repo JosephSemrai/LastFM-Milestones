@@ -51,12 +51,6 @@ app.use("/api", require("./js/routes/api"));
 app.use("/admin", adminAuthMiddleware(), require("./js/routes/admin"));
 app.use("/blog", require("./js/routes/blog"));
 
-if (process.env.DEBUG) {
-  app.use("/test", require("./js/routes/test"));
-  app.use("/search", require("./js/routes/search"));
-  app.use("/widgets", require("./js/routes/widgets"));
-}
-
 app.use((req, res, next) => {
   res.status(404);
   res.redirect("/");
