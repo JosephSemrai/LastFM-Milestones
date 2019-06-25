@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/timeline.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
     <header class="header">
-        <div class="header-img" style="background-image: url('<%= milestones[0].image %>')">
+        <div class="header-img" style="background-image: url('<%= milestones[0] ? milestones[0].image : '' %>')">
             <div class="container header-info center-content">
                 <div class="row">
                     <div class="col-12 col-lg-6 d-flex align-items-center">

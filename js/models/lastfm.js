@@ -35,7 +35,13 @@ class LastFM {
     })
       .then(body => {
         if (!parse) return body;
-        body = JSON.parse(body).recenttracks;
+        try {
+          body = JSON.parse(body).recenttracks;
+        } catch (err) {
+          throw new Error(
+            `Failed to parse the body of response, body: ${body}`
+          );
+        }
         const track = body.track.length > 1 ? body.track[1] : body.track[0];
         if (track.artist.image)
           track.artist.image = track.artist.image[3]["#text"];
@@ -54,11 +60,15 @@ class LastFM {
         return track;
       })
       .catch(err => {
-        err = JSON.parse(err.error);
-        if (err.error && err.error === 17)
-          throw new MilestoneError(
-            `Your scrobbles are private; to see your milestones, please, make them public. In order to do that, visit your last.fm profile settings and untick "Hide recent listening information" on "Privacy" tab.`
-          );
+        try {
+          err = JSON.parse(err.error);
+          if (err.error && err.error === 17)
+            throw new MilestoneError(
+              `Your scrobbles are private; to see your milestones, please, make them public. In order to do that, visit your last.fm profile settings and untick "Hide recent listening information" on "Privacy" tab.`
+            );
+        } catch (err1) {
+          throw new Error(err);
+        }
       });
     return body;
   }
@@ -106,6 +116,7 @@ class LastFM {
         name,
         user.playcount
       );
+      console.log(tryRequest);
       let tryResp = JSON.parse(tryRequest);
       tryResp = tryResp.recenttracks;
       const warning =

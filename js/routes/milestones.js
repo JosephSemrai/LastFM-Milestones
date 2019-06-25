@@ -55,23 +55,25 @@ router.get("/", (req, res) => {
   const name = req.query.user;
   const step = req.query.step;
   if (name) {
-    LastFM.getUserInfo(name).then((results) => {
+    LastFM.getUserInfo(name).then(results => {
       res.render("milestones_get", {
         name: name,
-        step: step, 
+        step: step,
         user: results,
         title: req.body.ref
-        ? strings.suggestedMilestoneTitle.en(name)
-        : strings.milestoneTitle.en(name),
+          ? strings.suggestedMilestoneTitle.en(name)
+          : strings.milestoneTitle.en(name)
       });
-    })
+    });
   } else res.redirect("/");
 });
 
 function sendLog(options, error) {
   options.success = error ? -1 : 1;
-  if (error) options.error = error.message;
-  if (!process.env.DEBUG) Telegram.sendSearchAlert(options);
+  if (error) {
+    options.error = error.message;
+    Telegram.sendSearchAlert(options);
+  }
   Mongo.writeToLog(options);
 }
 module.exports = router;
