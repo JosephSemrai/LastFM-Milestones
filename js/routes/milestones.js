@@ -43,7 +43,6 @@ router.post("/", (req, res) => {
         req.session.error = err.message;
         res.redirect("/");
       } else {
-        console.log(err);
         req.session.error = strings.unknownError.en;
         res.redirect("/");
       }
@@ -72,8 +71,8 @@ function sendLog(options, error) {
   options.success = error ? -1 : 1;
   if (error) {
     options.error = error.message;
-    Telegram.sendSearchAlert(options);
+    if (!process.env.DEBUG) Telegram.sendSearchAlert(options);
   }
-  Mongo.writeToLog(options);
+  if (!process.env.DEBUG) Mongo.writeToLog(options);
 }
 module.exports = router;

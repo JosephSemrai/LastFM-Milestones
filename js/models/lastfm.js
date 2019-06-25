@@ -116,7 +116,7 @@ class LastFM {
         name,
         user.playcount
       );
-      console.log(tryRequest);
+      if (!tryRequest) throw new Error("Failed to execute the tryRequest");
       let tryResp = JSON.parse(tryRequest);
       tryResp = tryResp.recenttracks;
       const warning =

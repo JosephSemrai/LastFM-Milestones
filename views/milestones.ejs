@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/timeline.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
     <header class="header">
-        <div class="header-img" style="background-image: url('<%= milestones[0] ? milestones[0].image : '' %>')">
+        <div class="header-img" style="background-image: url('<%= milestones[0] ? milestones[0].image : '/images/header.jpg' %>')">
             <div class="container header-info center-content">
                 <div class="row">
                     <div class="col-12 col-lg-6 d-flex align-items-center">
@@ -37,6 +37,7 @@
                             </div>
                         </div>
                     </div>
+                    <% if (milestones[0]) { %>
                     <div class="col-12 col-lg-6 d-flex justify-content-lg-end text-lg-right">
                         <div class="col">
                             <h4 class="featured-item-heading">First scrobble</h4>
@@ -46,6 +47,7 @@
                                 <%= milestones[0].artist %></a>
                         </div>
                     </div>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -77,10 +79,11 @@
                                         if (!milestone.suggested) { 
                                             const key = moment(milestone.date.uts * 1000).year()
                                             typeof milestoneHistory[key] === 'undefined' ? milestoneHistory[key] = 1 : milestoneHistory[key]++;
-                                            const notSuggestedMilestone = milestones[i - 1].suggested ? milestones[i - 2].date.uts * 1000 : milestones[i - 1].date.uts * 1000;
+                                            const notSuggestedMilestone = milestones[i-1] && milestones[i - 1].suggested ? milestones[i - 2].date.uts * 1000 : milestones[i - 1].date.uts * 1000;
                                             milestoneSpeed[milestone.scrobbleNumb] = moment(milestone.date.uts * 1000).diff(moment(i > 1 ? notSuggestedMilestone : user.registered["#text"] * 1000), "days");
                                         }
-                                        if (i == 1 || moment(milestones[i - 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
+                                        if (i == 1 && milestones[i-1] || moment(milestones[i - 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { 
+                                            if (milestone) { %>
                         <section class="year">
                             <h3>
                                 <%= moment(milestone.date.uts * 1000).year() %>
@@ -95,7 +98,7 @@
                                                     <%= numeral(milestone.scrobbleNumb).format() %> scrobble!
                                                 </h5>
                                                 <h4>
-                                                    <% if (milestone.suggested) { %>
+                                                    <% if (milestone && milestone.suggested) { %>
                                                         <span class="additional-info">Discover more milestone scrobbles like this with a custom step!</span><br><br>
                                                     <% } %>
                                                 <%= moment(milestone.date.uts * 1000).format("DD MMM YYYY, HH:mm") %>; it took
@@ -138,6 +141,7 @@
                             </section>
                             <% if (i == milestones.length - 1 || moment(milestones[i + 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
                         </section>
+                        <% } %>
                         <% } %>
                         <% } %>
                         <% } %>
