@@ -69,10 +69,8 @@ router.get("/", (req, res) => {
 
 function sendLog(options, error) {
   options.success = error ? -1 : 1;
-  if (error) {
-    options.error = error.message;
-    if (!process.env.DEBUG) Telegram.sendSearchAlert(options);
-  }
+  if (error) options.error = error.message;
+  if (!process.env.DEBUG) Telegram.sendSearchAlert(options);
   if (!process.env.DEBUG) Mongo.writeToLog(options);
 }
 module.exports = router;
