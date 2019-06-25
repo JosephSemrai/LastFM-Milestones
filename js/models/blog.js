@@ -4,19 +4,23 @@ const ObjectID = require("mongodb").ObjectID;
 class Blog extends Mongo {
   constructor() {
     super();
-    this.collectionName = process.env.DEBUG ? "posts-demo" : "posts";
+    this.collectionName = process.env.DEBUG ? "posts" : "posts";
   }
 
-  async addNewPost(options) {    
+  async addNewPost(options) {
     const connection = await this.connection;
-    const collection = connection.db(this.databaseName).collection(this.collectionName);
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
     const promise = await collection.insertOne(options);
     return promise;
   }
 
   async getPosts(numberLimit, offset, query) {
     const connection = await this.connection;
-    const collection = connection.db(this.databaseName).collection(this.collectionName);
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
     const cursor = collection.find(query ? query : {});
     const total = await cursor.count();
     if (offset != undefined) cursor.skip(offset);
@@ -26,7 +30,8 @@ class Blog extends Mongo {
     const articles = await cursor.toArray();
     for (let article of articles) {
       const connection = await this.connection;
-      const user = await connection.db(this.databaseName)
+      const user = await connection
+        .db(this.databaseName)
         .collection(article.user.collection)
         .find({ _id: new ObjectID(article.user.userId) })
         .project({ _id: 1, username: 1 })
@@ -59,14 +64,18 @@ class Blog extends Mongo {
 
   async removePost(query) {
     const connection = await this.connection;
-    const collection = connection.db(this.databaseName).collection(this.collectionName);
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
     const promise = await collection.deleteOne(query);
     return promise;
   }
 
   async updatePost(query, updateObj) {
     const connection = await this.connection;
-    const collection = connection.db(this.databaseName).collection(this.collectionName);
+    const collection = connection
+      .db(this.databaseName)
+      .collection(this.collectionName);
     const promise = await collection.updateOne(query, updateObj);
     return promise;
   }

@@ -26,10 +26,10 @@
             name="showOnMain" id="showOnMain">
             <label class="form-check-label" for="showOnMain">Show on main page?</label>
             <div id="level" class="<%= result ? result.showOnMain ? `` : `collapse` : `collapse` %>">
-                <select class="form-control" name="level">
-                    <option value="info" selected>Info</option>
-                    <option value="danger">Danger</option>
-                    <option value="warning">Warning</option>
+                <select class="form-control" name="level" >
+                    <option value="info" <%= result.level === "info" ? "selected" : ""%>>Info</option>
+                    <option value="danger" <%= result.level === "danger" ? "selected" : ""%>>Danger</option>
+                    <option value="warning" <%= result.level === "warning" ? "selected" : ""%>>Warning</option>
                 </select>
             </div>
         </div>

@@ -1,5 +1,6 @@
 <%- include('header') -%>
-<header class="header">
+<header>
+    <div class="header">
     <div class="header-img">
         <div class="container">
             <div class="center-text">
@@ -8,6 +9,21 @@
             </div>
         </div>
     </div>
+</div>
+    <div class="alert collapse" id="blog-alert"></div>
+    <script>
+        $.get("/api/latestPosts", result => {
+          if (result.articles.length <= 0) return;
+          result = result.articles[0];
+          const {title, text, level} = result;
+          let message = `<h5>${title}</h5>${level === "danger" ? `${text} ` :  ``}<a href="/blog/post/${
+            result._id
+          }">Read more...</a>`;
+          $("#blog-alert").addClass(`alert-${result.level}`);
+          $("#blog-alert").html(message);
+          $("#blog-alert").slideDown(500);
+        });
+      </script>
 </header>
 <div class="container container-margin d-flex justify-content-center">
     <form method="POST" action="/milestones">
