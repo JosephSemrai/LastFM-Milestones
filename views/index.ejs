@@ -16,7 +16,7 @@
           if (result.articles.length <= 0) return;
           result = result.articles[0];
           const {title, text, level} = result;
-          let message = `<h5>${title}</h5>${level === "danger" ? `${text} ` :  ``}<a href="/blog/post/${
+          let message = `<h5>${title}</h5>${level ? `${text} ` :  ``}<a href="/blog/post/${
             result._id
           }">Read more...</a>`;
           $("#blog-alert").addClass(`alert-${result.level}`);

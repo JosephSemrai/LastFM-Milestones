@@ -83,7 +83,7 @@
                                             milestoneSpeed[milestone.scrobbleNumb] = moment(milestone.date.uts * 1000).diff(moment(i > 1 ? notSuggestedMilestone : user.registered["#text"] * 1000), "days");
                                         }
                                         if (i == 1 && milestones[i-1] || moment(milestones[i - 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { 
-                                            if (milestone) { %>
+                                             %>
                         <section class="year">
                             <h3>
                                 <%= moment(milestone.date.uts * 1000).year() %>
@@ -141,7 +141,6 @@
                             </section>
                             <% if (i == milestones.length - 1 || moment(milestones[i + 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
                         </section>
-                        <% } %>
                         <% } %>
                         <% } %>
                         <% } %>
