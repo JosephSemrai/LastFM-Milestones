@@ -75,6 +75,7 @@
                         <% } %>
                         <% for (let i = 1; i < milestones.length; i++) {
                                     let milestone = milestones[i];
+                                    if (milestone === undefined || (i < milestones.length - 1 && milestones[i + 1] === undefined) || (i > 0 && milestones[i - 1] === undefined)) continue;
                                     if (milestone) { 
                                         if (!milestone.suggested) { 
                                             const key = moment(milestone.date.uts * 1000).year()
@@ -139,7 +140,7 @@
                                     </li>
                                 </ul>
                             </section>
-                            <% if (i == milestones.length - 1 || moment(milestones[i + 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
+                            <% if (i == milestones.length - 1 || milestones[i+1] && milestone && moment(milestones[i + 1].date.uts * 1000).year() != moment(milestone.date.uts * 1000).year()) { %>
                         </section>
                         <% } %>
                         <% } %>
