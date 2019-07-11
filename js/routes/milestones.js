@@ -39,6 +39,7 @@ router.post("/", (req, res) => {
       sendLog(options);
     })
     .catch(err => {
+      console.log(err);
       if (err instanceof MilestoneError) {
         req.session.error = err.message;
         res.redirect("/");

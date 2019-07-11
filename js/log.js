@@ -111,7 +111,7 @@ class MongoDbLog extends Mongo {
       },
       {
         $sort: {
-          "reqCount": -1
+          reqCount: -1
         }
       }
     ]);
@@ -152,11 +152,12 @@ class Telegram {
   }
 
   sendSearchAlert(options) {
+    console.log(options.error);
     const message = strings.telegramAlertMessage(
       options.name,
       options.step,
       options.isSuggested,
-      options.error
+      JSON.stringify(options.error)
     );
     const chatId = process.env.NEW_SEARCH_CHAT_ID;
     this.sendMessage(message, chatId, !options.error).then(body => {

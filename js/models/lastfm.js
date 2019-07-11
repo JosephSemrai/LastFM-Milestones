@@ -60,15 +60,12 @@ class LastFM {
         return track;
       })
       .catch(err => {
-        try {
-          err = JSON.parse(err.error);
-          if (err.error && err.error === 17)
-            throw new MilestoneError(
-              `Your scrobbles are private; to see your milestones, please, make them public. In order to do that, visit your last.fm profile settings and untick "Hide recent listening information" on "Privacy" tab.`
-            );
-        } catch (err1) {
-          throw new Error(err);
-        }
+        err = JSON.parse(err.error);
+        if (err.error && err.error === 17)
+          throw new MilestoneError(
+            `Your scrobbles are private; to see your milestones, please, make them public. In order to do that, visit your last.fm profile settings and untick "Hide recent listening information" on "Privacy" tab.`
+          );
+        else throw err;
       });
     return body;
   }
