@@ -30,6 +30,7 @@ class LastFM {
     url.searchParams.append("user", name);
     url.searchParams.append("limit", 1);
     url.searchParams.append("page", position);
+    console.log(url.href);
     const body = await request({
       url: url
     })
@@ -55,7 +56,10 @@ class LastFM {
         const attr = body["@attr"];
         if (attr.page === attr.total)
           track.image = track.image.replace(/300/g, "1500");
-        track.scrobbleNumb = attr.totalPages - attr.page;
+        track.scrobbleNumb =
+          position === 1
+            ? attr.totalPages - attr.page + 1
+            : attr.totalPages - attr.page;
         track.suggested = suggested;
         return track;
       })
@@ -141,7 +145,7 @@ class LastFM {
         Math.floor(
           (getRandomInt(1, sugLimit) * 10 ** step.toString().length - 1) / 9
         );
-      for (let i = startPoint; i >= endPoint; i -= step) {
+      for (let i = startPoint; i + 1 >= endPoint; i -= step) {
         if (suggestedPosition > i && i + step > suggestedPosition)
           promises.push(
             this.getSongAtPosition(
@@ -152,9 +156,14 @@ class LastFM {
               true
             )
           );
-        promises.push(
-          this.getSongAtPosition(i, name, user.playcount, false, true)
-        );
+        if (i > 0)
+          promises.push(
+            this.getSongAtPosition(i, name, user.playcount, false, true)
+          );
+        else
+          promises.push(
+            this.getSongAtPosition(1, name, user.playcount, false, true)
+          );
       }
       return Promise.all(promises).then(body => {
         return {
