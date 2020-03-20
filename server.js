@@ -20,7 +20,7 @@ app.use(
   cookieSession({
     name: "session",
     overwrite: true,
-    secret: process.env.SECRET
+    secret: process.env.SECRET || "defaultSecret_SHOULDBECHANGEDFORSECURITY"
   })
 );
 app.use(passport.initialize());
