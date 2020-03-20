@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 class Mongo {
   constructor() {
     this.databaseName = "lastmilestones";
-    this.databaseUrl = process.env.MONGODB;
+    this.databaseUrl = process.env.MONGODB_URI;
     this.connection = client.connect(
       this.databaseUrl,
       {
