@@ -31,7 +31,7 @@
             <label for="user" class="form-label">Last.fm Username</label>
             <input type="text" name="user" required minlength="1" class="form-control" value=<%=session.user %>>
             <br>
-            <label class="form-label">Step</label>
+            <label class="form-label">Step (how many scrobbles per milestone?)</label>
             <div class="toggle-group">
                 <% let steps = [10000, 5000, 1000, 500, 100] %>
                 <% for (step of steps) {%>
